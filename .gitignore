@@ -64,3 +64,5 @@ cython_debug/
 .DS_Store
 *.pyc
 */__pycache__/
+
+./reports/
