@@ -65,4 +65,4 @@ cython_debug/
 *.pyc
 */__pycache__/
 
-./reports/*
+reports/*
