@@ -41,7 +41,7 @@ def step_impl(context):
 
 @then('verify login error message is displayed')
 def step_impl(context):
-    expected_error_message = 'The username or password seems incorrect. Please check & try agains'
+    expected_error_message = 'The username or password seems incorrect. Please check & try again'
     actual_error_message = context.login_page.get_login_error_message()
     print(f'actual err: {actual_error_message} \nexpected err: {expected_error_message}')
     assert expected_error_message == actual_error_message
