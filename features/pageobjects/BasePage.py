@@ -197,5 +197,8 @@ class BasePage:
     def get_text(self, element):
         return element.text
 
+    def maximize_window(self):
+        self.driver.maximize_window()
+
 
 
