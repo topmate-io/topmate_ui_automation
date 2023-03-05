@@ -3,7 +3,7 @@ Feature: As an user I want to test login functionality of topmate.io
   Background:
     Given user navigates to topmate.io
 
-  @sanity
+  @smoke
   Scenario Outline: Validating the login functionality with correct username and correct password
     Given user clicks on login
     When user enters "<username>" and "<password>"
