@@ -1,21 +1,30 @@
 import datetime
 import allure
 from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.firefox import GeckoDriverManager
-from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from Utilities import configReader
 from Utilities.util_helper import UtilHelper
 
 
 def before_scenario(context, driver):
+    headless = configReader.readConfig("basic info", "headless")
+
     if configReader.readConfig("basic info", "browser") == "chrome":
-        service_obj = ChromeService(executable_path=ChromeDriverManager().install())
-        context.driver = webdriver.Chrome(service=service_obj)
+        chrome_options = ChromeOptions()
+        if headless.lower().strip() == 'true':
+            chrome_options.headless = True
+        elif headless.lower().strip() == 'false':
+            chrome_options.headless = False
+        context.driver = webdriver.Chrome(options=chrome_options)
+
     if configReader.readConfig("basic info", "browser") == "firefox":
-        service_obj = FirefoxService(executable_path=GeckoDriverManager().install())
-        context.driver = webdriver.Firefox(service=service_obj)
+        firefox_options = FirefoxOptions()
+        if headless.lower().strip() == 'true':
+            firefox_options.headless = True
+        elif headless.lower().strip() == 'false':
+            firefox_options.headless = False
+        context.driver = webdriver.Firefox(options=firefox_options)
 
 
 def after_scenario(context, driver):
