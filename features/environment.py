@@ -3,8 +3,8 @@ import allure
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
-from Utilities import configReader
-from Utilities.util_helper import UtilHelper
+from utilities import configReader
+from utilities.util_helper import UtilHelper
 
 
 def before_scenario(context, driver):
