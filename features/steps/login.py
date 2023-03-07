@@ -1,6 +1,6 @@
 from behave import *
 
-from Utilities import configReader
+from utilities import configReader
 from features.pageobjects.EntryPage import EntryPage
 from features.pageobjects.HomePage import HomePage
 from features.pageobjects.LoginPage import LoginPage
