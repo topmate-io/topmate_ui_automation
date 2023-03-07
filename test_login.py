@@ -6,17 +6,25 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.common.selenium_manager import SeleniumManager
 
 
 def wait_for_element_to_be_visible(driver, locator_name: str, time_out: int):
     element = WebDriverWait(driver, time_out).until(
         expected_conditions.visibility_of_element_located((By.ID, locator_name)))
-
     return element
 
+chrome_path = SeleniumManager.driver_location(SeleniumManager, 'chrome')
+print(chrome_path)
+chrome_options = ChromeOptions()
+chrome_options.headless = True
+driver = webdriver.Chrome(options=chrome_options)
 
-service_obj = ChromeService(executable_path=ChromeDriverManager().install())
-driver = webdriver.Chrome(service=service_obj)
+# chrome_options = ChromeOptions()
+# chrome_options.headless = False
+# service_obj = ChromeService(executable_path=ChromeDriverManager().install())
+# driver = webdriver.Chrome(service=service_obj, options=chrome_options)
 driver.implicitly_wait(10)
 
 driver.get('https://staging2.topmate.io/')
