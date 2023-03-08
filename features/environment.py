@@ -8,23 +8,26 @@ from utilities.util_helper import UtilHelper
 
 
 def before_scenario(context, driver):
-    headless = configReader.readConfig("basic info", "headless")
+    headless_mode = configReader.readConfig("basic info", "headless")
+    url = configReader.readConfig("basic info", "test_site_url")
 
     if configReader.readConfig("basic info", "browser") == "chrome":
         chrome_options = ChromeOptions()
-        if headless.lower().strip() == 'true':
+        if headless_mode.lower().strip() == 'true':
             chrome_options.headless = True
-        elif headless.lower().strip() == 'false':
+        elif headless_mode.lower().strip() == 'false':
             chrome_options.headless = False
         context.driver = webdriver.Chrome(options=chrome_options)
 
     if configReader.readConfig("basic info", "browser") == "firefox":
         firefox_options = FirefoxOptions()
-        if headless.lower().strip() == 'true':
+        if headless_mode.lower().strip() == 'true':
             firefox_options.headless = True
-        elif headless.lower().strip() == 'false':
+        elif headless_mode.lower().strip() == 'false':
             firefox_options.headless = False
         context.driver = webdriver.Firefox(options=firefox_options)
+
+    context.driver.get(url)
 
 
 def after_scenario(context, driver):

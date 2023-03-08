@@ -6,11 +6,10 @@ from features.pageobjects.HomePage import HomePage
 from features.pageobjects.LoginPage import LoginPage
 
 
-@given('user navigates to topmate.io')
+@given('user navigates to entry page of topmate.io')
 def step_impl(context):
     url = configReader.readConfig("basic info", "test_site_url")
     context.entry_page = EntryPage(context.driver)
-    context.entry_page.navigate_to(url)
     context.entry_page.maximize_window()
 
 
@@ -19,7 +18,7 @@ def step_impl(context):
     context.entry_page.click_login_button()
 
 
-@when('user enters "{username}" and "{password}"')
+@when('user enters username as "{username}" and password as "{password}"')
 def step_impl(context, username, password):
     print(f'Testing with username: {username} password: {password}')
     context.login_page = LoginPage(context.driver)
