@@ -1,6 +1,4 @@
 from behave import *
-
-from utilities import configReader
 from features.pageobjects.EntryPage import EntryPage
 from features.pageobjects.HomePage import HomePage
 from features.pageobjects.LoginPage import LoginPage
@@ -8,7 +6,6 @@ from features.pageobjects.LoginPage import LoginPage
 
 @given('user navigates to entry page of topmate.io')
 def step_impl(context):
-    url = configReader.readConfig("basic info", "test_site_url")
     context.entry_page = EntryPage(context.driver)
     context.entry_page.maximize_window()
 
