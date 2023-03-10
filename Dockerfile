@@ -4,9 +4,20 @@ FROM python:latest
 USER root
 RUN apt-get update && apt-get install -y curl && apt-get install -y procps
 
-RUN pip install chromedriver-py
+# Install Chromium Drive
+RUN apt-get update && apt-get install chromium -y --fix-broken --fix-missing
 
-RUN apt-get install -y libglib2.0 libnss3 libgconf-2-4 libfontconfig1
+# Install required libraries
+RUN pip install --upgrade pip && \
+    pip3 install selenium && \
+    pip3 install pytest && \
+    pip3 install behave && \
+    pip3 install allure-behave && \
+    pip3 install allure-python-commons && \
+    pip3 install pandas && \
+    pip3 install pause && \
+    pip3 install PyYAML && \
+    pip3 install requests
 
 WORKDIR /topmate_ui_automation
 
@@ -17,11 +28,8 @@ COPY config config/
 COPY features features/
 COPY utilities utilities/
 COPY behave.ini behave.ini
-COPY requirements.txt requirements.txt
 
 RUN mkdir reports/
-
-RUN pip install -r requirements.txt
 
 COPY entrypoint_ui_automation.sh entrypoint_ui_automation.sh
 

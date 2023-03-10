@@ -1,7 +1,6 @@
 echo ""
 echo "Browser Type: " $BROWSER
-export headless_mode=true
 echo "Yeppee!!!....... UI Automation Started Started in $BROWSER......."
 
-behave features/login.feature -D browser=$BROWSER
-
+behave features -D browser=chrome -D headless=true -f allure_behave.formatter:AllureFormatter -o reports/
+#allure serve reports

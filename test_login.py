@@ -15,15 +15,13 @@ def wait_for_element_to_be_visible(driver, locator_name: str, time_out: int):
         expected_conditions.visibility_of_element_located((By.ID, locator_name)))
     return element
 
-chrome_path = SeleniumManager.driver_location(SeleniumManager, 'chrome')
-print(chrome_path)
 chrome_options = ChromeOptions()
 chrome_options.headless = True
 driver = webdriver.Chrome(options=chrome_options)
 
 # chrome_options = ChromeOptions()
 # chrome_options.headless = False
-# service_obj = ChromeService(executable_path=ChromeDriverManager().install())
+service_obj = ChromeService(executable_path=ChromeDriverManager().install())
 # driver = webdriver.Chrome(service=service_obj, options=chrome_options)
 driver.implicitly_wait(10)
 

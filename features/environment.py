@@ -4,50 +4,67 @@ from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
+
 from utilities import configReader
 from utilities.util_helper import UtilHelper
 
 
 def before_all(context):
-    browser_type = context.config.userdata.get('browser')
-    print(browser_type)
-    if browser_type is None:
-        context.browser_type = configReader.readConfig('basic info', 'browser').lower().strip()
+    browser = context.config.userdata.get('browser')
+    headless = context.config.userdata.get('headless')
+    if browser is None:
+        context.browser = configReader.readConfig('basic info', 'browser').lower().strip()
     else:
-        context.browser_type = browser_type
+        context.browser = browser
+
+    if headless is None:
+        context.headless = configReader.readConfig('basic info', 'headless').lower().strip()
+    else:
+        context.headless = headless
+
+    print(context.browser + ' | ' + context.headless)
 
 
 def before_scenario(context, driver):
-    headless_mode = configReader.readConfig('basic info', 'headless').lower().strip()
     url = configReader.readConfig('basic info', 'test_site_url').lower().strip()
     run_type = configReader.readConfig('basic info', 'run_type').lower().strip()
     selenium_hub_url = 'http://localhost:4444/hub'
 
-    if context.browser_type == 'chrome':
+    if context.browser == 'chrome':
         chrome_options = ChromeOptions()
-        if headless_mode == 'true':
+
+        """"--disable-dev-shm-usage" Only added when CI system environment variable is set 
+        or when inside a docker instance. The /dev/shm partition is too small in certain VM environments, 
+        causing Chrome to fail or crash.
+        It overcomes the limited resources problem
+        """
+        chrome_options.add_argument('--disable-dev-shm-usage') # overcomes the limited resources problem
+        chrome_options.add_argument('--no-sandbox') # Bypass OS security model
+
+        if context.headless == 'true':
             chrome_options.headless = True
-        elif headless_mode == 'false':
+        elif context.headless == 'false':
             chrome_options.headless = False
 
-        if run_type == 'local':
-            context.driver = webdriver.Chrome(options=chrome_options)
-        elif run_type == 'remote':
+        if run_type == 'remote':
             context.driver = webdriver.Remote(command_executor=selenium_hub_url,
                                               desired_capabilities=DesiredCapabilities.CHROME, options=chrome_options)
+        else:
+            context.driver = webdriver.Chrome(options=chrome_options)
+            # context.driver = WebDriver(options=chrome_options)
 
-    if context.browser_type == 'firefox':
+    if context.browser == 'firefox':
         firefox_options = FirefoxOptions()
-        if headless_mode == 'true':
+        if context.headless == 'true':
             firefox_options.headless = True
-        elif headless_mode == 'false':
+        elif context.headless == 'false':
             firefox_options.headless = False
 
-        if run_type == 'local':
-            context.driver = webdriver.Firefox(options=firefox_options)
-        elif run_type == 'remote':
+        if run_type == 'remote':
             context.driver = webdriver.Remote(command_executor=selenium_hub_url,
                                               desired_capabilities=DesiredCapabilities.FIREFOX, options=firefox_options)
+        else:
+            context.driver = webdriver.Firefox(options=firefox_options)
 
     context.driver.get(url)
 

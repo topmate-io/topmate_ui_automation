@@ -6,6 +6,7 @@ pytest-html~=3.2.0
 behave~=1.2.6
 allure-pytest~=2.13.0
 allure-behave~=2.13.0
+allure-python-commons~=2.13.0
 webdriver-manager~=3.8.5
 pandas
 pause

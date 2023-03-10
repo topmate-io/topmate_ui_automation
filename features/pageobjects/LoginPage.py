@@ -21,5 +21,5 @@ class LoginPage(BasePage):
         self.click(element)
 
     def get_login_error_message(self):
-        element = self.wait_for_element_to_be_visible('login_error_message_CSS', 10)
+        element = self.wait_for_element_to_be_visible('login_error_message_CSS', 15)
         return self.get_text(element)
