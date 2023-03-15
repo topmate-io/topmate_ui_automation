@@ -7,28 +7,16 @@ RUN apt-get update && apt-get install -y curl && apt-get install -y procps
 # Install Chromium Drive && Allure
 RUN apt-get update && apt-get install chromium -y --fix-broken --fix-missing
 
-## Install OpenJDK-8
-#RUN apt-get update && \
-#    apt-get install -y openjdk-8-jdk && \
-#    apt-get install -y ant && \
-#    apt-get clean;
-#
-## Fix certificate issues
-#RUN apt-get update && \
-#    apt-get install ca-certificates-java && \
-#    apt-get clean && \
-#    update-ca-certificates -f;
-
 ENV PATH=$PATH:/opt/java/jdk-15.0.2/bin
 
+# Install Java [allure reporting we must install Java]
 RUN mkdir /opt/java && \
     curl https://download.java.net/java/GA/jdk15.0.2/0d1cfde4252546c6931946de8db48ee2/7/GPL/openjdk-15.0.2_linux-x64_bin.tar.gz | tar -xz -C /opt/java/
 
-## Setup JAVA_HOME -- useful for docker commandline
-#ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
-#RUN export JAVA_HOME
-
+# install npm to use it to install allure commandline
 RUN apt update && apt install -y npm
+
+# install allure-command-line via npm package manager
 RUN npm install -g allure-commandline --save-dev
 
 
