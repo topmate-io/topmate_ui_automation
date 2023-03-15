@@ -1,4 +1,6 @@
 import datetime
+import os
+
 import allure
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
@@ -22,7 +24,8 @@ def before_all(context):
     else:
         context.headless = headless
 
-    print(context.browser + ' | ' + context.headless)
+    os.environ['browser'] = context.browser
+    print(f'BROWSER: {context.browser} | HEADLESS: {context.headless}')
 
 
 def before_scenario(context, driver):
@@ -38,8 +41,8 @@ def before_scenario(context, driver):
         causing Chrome to fail or crash.
         It overcomes the limited resources problem
         """
-        chrome_options.add_argument('--disable-dev-shm-usage') # overcomes the limited resources problem
-        chrome_options.add_argument('--no-sandbox') # Bypass OS security model
+        chrome_options.add_argument('--disable-dev-shm-usage')  # overcomes the limited resources problem
+        chrome_options.add_argument('--no-sandbox')  # Bypass OS security model
 
         if context.headless == 'true':
             chrome_options.headless = True
@@ -79,3 +82,12 @@ def after_step(context, step):
 
 def after_scenario(context, driver):
     context.driver.quit()
+
+# def after_all(context):
+#     filepath = './test_data/creds.json'
+#     json_data = UtilHelper.read_JSON(filepath)
+#     sender_email_id = json_data.get('gmail').get('sender').get('email_id')
+#     sender_password = json_data.get('gmail').get('sender').get('password')
+#     receiver_email_id_list = json_data.get('gmail').get('receiver')
+#
+#     Mail_Util.send_mail(context.browser, sender_email_id, sender_password, receiver_email_id_list)

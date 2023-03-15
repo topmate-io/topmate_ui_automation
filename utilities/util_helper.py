@@ -111,9 +111,8 @@ class UtilHelper:
         return cookie_header
 
     @staticmethod
-    def read_JSON(filepath, filename):
-        filename = filepath + filename
-        with open(filename, 'r') as template:
+    def read_JSON(filepath):
+        with open(filepath, 'r') as template:
             data = json.load(template)
         return data
 
@@ -142,13 +141,6 @@ class UtilHelper:
         path = os.getcwd() + file_path
         reader = pd.read_csv(path)
         return reader
-
-
-    @staticmethod
-    def read_json(file_path):
-        path = os.getcwd() + file_path
-        file = open(path)
-        return file
 
     @staticmethod
     def get_column_data_csv(filepath, column_name):

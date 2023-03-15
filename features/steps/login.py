@@ -33,6 +33,7 @@ def step_impl(context):
     context.home_page = HomePage(context.driver)
     current_url = context.home_page.get_current_url()
     assert '/dashboard/home' in current_url
+    print('Login Successful!')
 
 
 @then('verify login error message is displayed')
