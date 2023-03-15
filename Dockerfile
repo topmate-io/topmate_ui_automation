@@ -33,9 +33,6 @@ RUN pip install --upgrade pip && \
     pip3 install requests && \
     pip3 install awscli
 
-#ENV ALLURE_HOME /usr/local/bin
-#RUN export PATH=$ALLURE_HOME:$PATH
-
 WORKDIR /topmate_ui_automation
 
 ARG BROWSER
