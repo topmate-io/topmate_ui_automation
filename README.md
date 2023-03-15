@@ -7,7 +7,10 @@ To run any feature file locally using behave command:
 How to generate Report after execution?
 
 1. We use allure reporting for that
-command -> behave features/login.feature -D browser=chrome -D headless=true -f allure_behave.formatter:AllureFormatter -o reports/
+command -> behave features/login.feature -D browser=chrome -D headless=true -f allure_behave.formatter:AllureFormatter -o reports/json_reports/
+
+Now we will try to generate the report
+allure generate reports/json_reports -o reports/allure_reports --clean 
 
 Now we will see the report in allure:
 command -> allure serve reports

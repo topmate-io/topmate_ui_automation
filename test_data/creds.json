@@ -1,0 +1,21 @@
+{
+  "gmail": {
+    "sender": {
+      "email_id": "testAutomationDK@gmail.com",
+      "password": "wkkvenglmumjjvsq"
+    },
+    "receiver": [
+      "dipanjan56@gmail.com",
+      "dipanjankundu07@gmail.com",
+      "dinesh@topmate.io",
+      "hitesh@topmate.io",
+      "aditya@topmate.io"
+    ]
+  },
+  "aws": {
+    "user_id": "qa_automation_user",
+    "bucket": "topmate-qa-automation",
+    "access_key": "AKIAXXBHRVOS2VGNOWP6",
+    "secret_key": "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"
+  }
+}
