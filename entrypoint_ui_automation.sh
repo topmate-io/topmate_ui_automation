@@ -1,5 +1,5 @@
 echo ""
-export BROWSER=chrome
+#export BROWSER=chrome
 echo "Browser Type: " $BROWSER
 echo "Yeppee!!!....... UI Automation Started Started in $BROWSER......."
 #source venv/bin/activate
