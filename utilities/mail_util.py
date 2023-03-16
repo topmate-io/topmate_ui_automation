@@ -18,7 +18,7 @@ def generate_mailer_body(browser, sender_email_id, receiver__email_id_list: List
     print(allure_report_path)
     body = f"""
     <h3>Automation Run is completed.</h3>
-    Please find the REPORT <a href="{allure_report_path}">here.</a><br>
+    Please find the REPORT <a href="{allure_report_path}">HERE.</a><br>
     <p style="font-size:15px">Thanks & Regards,<br>
     Automation Team</p>
     """
