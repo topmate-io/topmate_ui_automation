@@ -2,7 +2,7 @@ import logging
 import os
 import allure
 
-log_path = os.path.join(os.path.abspath(__file__ + '/../'), "current_log_file.log")
+log_path = os.path.join(os.path.abspath(__file__ + '/../../logs/'), "current_log_file.log")
 
 
 class AllureLoggingHandler(logging.Handler):

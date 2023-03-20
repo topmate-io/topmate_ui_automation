@@ -9,6 +9,7 @@ log = log_util.get_logs()
 
 @given('user navigates to entry page of topmate.io')
 def step_impl(context):
+    log.info(f'Navigating to Entry Page for {context.url}')
     context.entry_page = EntryPage(context.driver)
     context.entry_page.maximize_window()
 
@@ -35,7 +36,8 @@ def step_impl(context):
 def step_impl(context):
     context.home_page = HomePage(context.driver)
     current_url = context.home_page.get_current_url()
-    assert '/dashboard/home' in current_url
+    assert '/dashboard/home' in current_url, f"'/dashboard/home' is not present in current title {current_url}"
+    log.info(' current URL is matched for HOMEPAGE')
     log.info('Test Case Passed... | Login Successful!')
 
 
@@ -43,6 +45,7 @@ def step_impl(context):
 def step_impl(context):
     expected_error_message = 'The username or password seems incorrect. Please check & try again'
     actual_error_message = context.login_page.get_login_error_message()
-    log.info(f'actual err: {actual_error_message} \nexpected err: {expected_error_message}')
+    log.info(f'Expected error message: {expected_error_message}')
+    log.info(f'Actual error message: {actual_error_message}')
     assert expected_error_message == actual_error_message, "Error Message Mismatched"
     log.info('Test Case Passed... | Login Failure!')

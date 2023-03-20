@@ -14,5 +14,6 @@ class EntryPage(BasePage):
         log.info(f'Navigated successfully to Entry Page for this url: {url}')
 
     def click_login_button(self):
+        log.info('Clicking on login button')
         button = self.wait_for_element_to_be_clickable('login_button_CSS', 5)
         self.click(button)

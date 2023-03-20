@@ -12,5 +12,6 @@ class HomePage(BasePage):
         log.info('Login Successful! Successfully landed to Home Page')
 
     def get_current_url(self):
+        log.info('fetching current url of HomePage')
         return self.get_present_url()
 
