@@ -68,4 +68,3 @@ cython_debug/
 reports/*
 
 geckodriver.log
-current_log_file.log
