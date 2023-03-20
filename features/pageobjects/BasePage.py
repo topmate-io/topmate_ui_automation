@@ -1,12 +1,15 @@
 import time
 
+import selenium.common.exceptions
 from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions, wait
-
 from utilities import configReader
+from utilities import log_util
+
+log = log_util.get_logs()
 
 
 class BasePage:
@@ -48,32 +51,41 @@ class BasePage:
     def wait_for_element_to_be_visible(self, locator_name: str, time_in_seconds: int):
 
         global element
-        if str(locator_name).endswith('ID'):
-            element = WebDriverWait(self.driver, time_in_seconds).until(
-                expected_conditions.visibility_of_element_located((By.ID, self.get_locator(locator_name))))
-        elif str(locator_name).endswith('XPATH'):
-            element = WebDriverWait(self.driver, time_in_seconds).until(
-                expected_conditions.visibility_of_element_located((By.XPATH, self.get_locator(locator_name))))
-        elif str(locator_name).endswith('CSS'):
-            element = WebDriverWait(self.driver, time_in_seconds).until(
-                expected_conditions.visibility_of_element_located((By.CSS_SELECTOR, self.get_locator(locator_name))))
-        elif str(locator_name).endswith('NAME'):
-            element = WebDriverWait(self.driver, time_in_seconds).until(
-                expected_conditions.visibility_of_element_located((By.NAME, self.get_locator(locator_name))))
-        elif str(locator_name).endswith('TAG_NAME'):
-            element = WebDriverWait(self.driver, time_in_seconds).until(
-                expected_conditions.visibility_of_element_located((By.TAG_NAME, self.get_locator(locator_name))))
-        elif str(locator_name).endswith('CLASS_NAME'):
-            element = WebDriverWait(self.driver, time_in_seconds).until(
-                expected_conditions.visibility_of_element_located((By.CLASS_NAME, self.get_locator(locator_name))))
-        elif str(locator_name).endswith('LINK_TEXT'):
-            element = WebDriverWait(self.driver, time_in_seconds).until(
-                expected_conditions.visibility_of_element_located((By.LINK_TEXT, self.get_locator(locator_name))))
-        elif str(locator_name).endswith('PARTIAL_LINK_TEXT'):
-            element = WebDriverWait(self.driver, time_in_seconds).until(
-                expected_conditions.visibility_of_element_located(
-                    (By.PARTIAL_LINK_TEXT, self.get_locator(locator_name))))
+        try:
+            if str(locator_name).endswith('ID'):
+                element = WebDriverWait(self.driver, time_in_seconds).until(
+                    expected_conditions.visibility_of_element_located((By.ID, self.get_locator(locator_name))))
+            elif str(locator_name).endswith('XPATH'):
+                element = WebDriverWait(self.driver, time_in_seconds).until(
+                    expected_conditions.visibility_of_element_located((By.XPATH, self.get_locator(locator_name))))
+            elif str(locator_name).endswith('CSS'):
+                element = WebDriverWait(self.driver, time_in_seconds).until(
+                    expected_conditions.visibility_of_element_located(
+                        (By.CSS_SELECTOR, self.get_locator(locator_name))))
+            elif str(locator_name).endswith('NAME'):
+                element = WebDriverWait(self.driver, time_in_seconds).until(
+                    expected_conditions.visibility_of_element_located((By.NAME, self.get_locator(locator_name))))
+            elif str(locator_name).endswith('TAG_NAME'):
+                element = WebDriverWait(self.driver, time_in_seconds).until(
+                    expected_conditions.visibility_of_element_located((By.TAG_NAME, self.get_locator(locator_name))))
+            elif str(locator_name).endswith('CLASS_NAME'):
+                element = WebDriverWait(self.driver, time_in_seconds).until(
+                    expected_conditions.visibility_of_element_located((By.CLASS_NAME, self.get_locator(locator_name))))
+            elif str(locator_name).endswith('LINK_TEXT'):
+                element = WebDriverWait(self.driver, time_in_seconds).until(
+                    expected_conditions.visibility_of_element_located((By.LINK_TEXT, self.get_locator(locator_name))))
+            elif str(locator_name).endswith('PARTIAL_LINK_TEXT'):
+                element = WebDriverWait(self.driver, time_in_seconds).until(
+                    expected_conditions.visibility_of_element_located(
+                        (By.PARTIAL_LINK_TEXT, self.get_locator(locator_name))))
 
+        except selenium.common.exceptions.TimeoutException as e:
+            log.error(
+                f"Time Out Error Occurred! Element not visible | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | wait_time: {time_in_seconds} seconds")
+        except Exception as e:
+            log.info(
+                f"Exception Occurred! | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | wait_time: {time_in_seconds}")
+            log.error(f" Detailed Exception: {e}")
         return element
 
     def wait_for_all_elements_to_be_visible(self, locator_name: str, time_in_seconds: int):
@@ -145,7 +157,11 @@ class BasePage:
         return self.driver.current_url
 
     def click(self, element):
-        element.click()
+        try:
+            element.click()
+            log.info(f'element is clicked successfully')
+        except Exception as e:
+            log.error(f"Not able to click element | Detailed Exception: {e}")
 
     def right_click(self, element):
         ActionChains(self.driver).context_click(element).perform()
@@ -165,15 +181,16 @@ class BasePage:
         ActionChains(self.driver).drag_and_drop(source_element, target_element).perform()
 
     def type(self, element, value):
-        element.send_keys(value)
+        try:
+            element.send_keys(value)
+        except Exception as e:
+            log.error(f"Not able to type {value} | Detailed Exception: {e}")
 
     def select_from_dropdown(self, element, value):
         Select(element).select_by_visible_text(value)
 
-
     def press_enter(self, element):
         element.send_keys(Keys.ENTER)
-
 
     def scroll_to_element(self, element):
         ActionChains(self.driver).scroll_to_element(element).perform()
@@ -199,6 +216,3 @@ class BasePage:
 
     def maximize_window(self):
         self.driver.maximize_window()
-
-
-

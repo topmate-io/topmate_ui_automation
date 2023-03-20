@@ -2,6 +2,9 @@ from behave import *
 from features.pageobjects.EntryPage import EntryPage
 from features.pageobjects.HomePage import HomePage
 from features.pageobjects.LoginPage import LoginPage
+from utilities import log_util
+
+log = log_util.get_logs()
 
 
 @given('user navigates to entry page of topmate.io')
@@ -17,7 +20,7 @@ def step_impl(context):
 
 @when('user enters username as "{username}" and password as "{password}"')
 def step_impl(context, username, password):
-    print(f'Testing with username: {username} password: {password}')
+    log.info(f'Testing with username: {username} password: {password}')
     context.login_page = LoginPage(context.driver)
     context.login_page.set_username(username)
     context.login_page.set_password(password)
@@ -33,13 +36,13 @@ def step_impl(context):
     context.home_page = HomePage(context.driver)
     current_url = context.home_page.get_current_url()
     assert '/dashboard/home' in current_url
-    print('Login Successful!')
+    log.info('Test Case Passed... | Login Successful!')
 
 
 @then('verify login error message is displayed')
 def step_impl(context):
     expected_error_message = 'The username or password seems incorrect. Please check & try again'
     actual_error_message = context.login_page.get_login_error_message()
-    print(f'actual err: {actual_error_message} \nexpected err: {expected_error_message}')
-    assert expected_error_message == actual_error_message
-    print('Login Failure!')
+    log.info(f'actual err: {actual_error_message} \nexpected err: {expected_error_message}')
+    assert expected_error_message == actual_error_message, "Error Message Mismatched"
+    log.info('Test Case Passed... | Login Failure!')

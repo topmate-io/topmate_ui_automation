@@ -1,4 +1,7 @@
 from features.pageobjects.BasePage import BasePage
+from utilities import log_util
+
+log = log_util.get_logs()
 
 
 class LoginPage(BasePage):
@@ -6,7 +9,7 @@ class LoginPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
         self.wait_for_element_to_be_visible('sign_in_text_XPATH', 5)
-        print('successfully landed to Login Page')
+        log.info('successfully landed to Login Page')
 
     def set_username(self, name):
         element = self.wait_for_element_to_be_clickable('username_ID', 5)
