@@ -7,7 +7,6 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options as ChromeOptions
-from selenium.webdriver.common.selenium_manager import SeleniumManager
 
 
 def wait_for_element_to_be_visible(driver, locator_name: str, time_out: int):

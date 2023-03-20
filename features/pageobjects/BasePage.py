@@ -85,7 +85,7 @@ class BasePage:
 
         except selenium.common.exceptions.TimeoutException as e:
             log.error(
-                f"Time Out Error Occurred! Element not visible | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | wait_time: {time_in_seconds} seconds")
+                f"TIME OUT ERROR Occurred! Element not visible | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | wait_time: {time_in_seconds} seconds")
         except Exception as e:
             log.info(
                 f"Exception Occurred! | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | wait_time: {time_in_seconds}")
@@ -127,7 +127,7 @@ class BasePage:
                         (By.PARTIAL_LINK_TEXT, self.get_locator(locator_name))))
         except selenium.common.exceptions.TimeoutException as e:
             log.error(
-                f"Time Out Error Occurred! All Elements not visible | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | wait_time: {time_in_seconds} seconds")
+                f"TIME OUT ERROR Occurred! All Elements not visible | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | wait_time: {time_in_seconds} seconds")
         except Exception as e:
             log.info(
                 f"Exception Occurred! | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | wait_time: {time_in_seconds}")
@@ -165,7 +165,7 @@ class BasePage:
                     expected_conditions.element_to_be_clickable((By.PARTIAL_LINK_TEXT, self.get_locator(locator_name))))
         except selenium.common.exceptions.TimeoutException as e:
             log.error(
-                f"Time Out Error Occurred! Element not clickable | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | wait_time: {time_in_seconds} seconds")
+                f"TIME OUT ERROR Occurred! Element not clickable | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | wait_time: {time_in_seconds} seconds")
         except Exception as e:
             log.info(
                 f"Exception Occurred! | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | wait_time: {time_in_seconds}")
