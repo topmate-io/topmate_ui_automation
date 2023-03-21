@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sa-default
+  annotations:
+    iam.gke.io/gcp-service-account: development-sa-topmate-api@<environment>-topmate-api.iam.gserviceaccount.com
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui-test-automation
+  namespace: default
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  minReadySeconds: 20
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: ui-test-automation
+  template:
+    metadata:
+      labels:
+        app: ui-test-automation
+    spec:
+      terminationGracePeriodSeconds: 60
+      serviceAccountName: sa-default
+      containers:
+      - name: ui-test-automation
+        image: us-west2-docker.pkg.dev/development-topmate-api-232536/topmate-ui-test-automation/master:latest
+        imagePullPolicy: Always
+        resources:
+            requests:
+              cpu: 1024m
+              memory: 2048Mi
+            limits:
+              cpu: 2048m
+              memory: 3000Mi
+
+      tolerations:
+      - key: instance_type
+        value: spot
+        effect: NoSchedule
+        operator: Equal
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: role
+                operator: In
+                values:
+                - preemptible
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - ui-test-automation
+            topologyKey: kubernetes.io/hostname
