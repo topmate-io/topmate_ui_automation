@@ -1,0 +1,20 @@
+20/03/2023 07:03:25 PM: INFO: BasePage: click: element is clicked successfully
+20/03/2023 07:03:25 PM: INFO: login: step_impl: Testing with username: automate_topmate password: 123456
+20/03/2023 07:03:25 PM: INFO: LoginPage: __init__: successfully landed to Login Page
+20/03/2023 07:03:26 PM: INFO: BasePage: click: element is clicked successfully
+20/03/2023 07:03:29 PM: INFO: HomePage: __init__: Login Successful! Successfully landed to Home Page
+20/03/2023 07:03:29 PM: INFO: login: step_impl: Test Case Passed... | Login Successful!
+20/03/2023 07:03:32 PM: INFO: BasePage: click: element is clicked successfully
+20/03/2023 07:03:32 PM: INFO: login: step_impl: Testing with username: automationtopmate@gmail.com password: 123456
+20/03/2023 07:03:32 PM: INFO: LoginPage: __init__: successfully landed to Login Page
+20/03/2023 07:03:33 PM: INFO: BasePage: click: element is clicked successfully
+20/03/2023 07:03:34 PM: INFO: login: step_impl: actual err: The username or password seems incorrect. Please check & try again 
+expected err: The username or password seems incorrect. Please check & try again
+20/03/2023 07:03:34 PM: INFO: login: step_impl: Test Case Passed... | Login Failure!
+20/03/2023 07:03:37 PM: INFO: BasePage: click: element is clicked successfully
+20/03/2023 07:03:37 PM: INFO: login: step_impl: Testing with username: automate_topmate password: 12345678
+20/03/2023 07:03:37 PM: INFO: LoginPage: __init__: successfully landed to Login Page
+20/03/2023 07:03:37 PM: INFO: BasePage: click: element is clicked successfully
+20/03/2023 07:03:39 PM: INFO: login: step_impl: actual err: The username or password seems incorrect. Please check & try again 
+expected err: The username or password seems incorrect. Please check & try again
+20/03/2023 07:03:39 PM: INFO: login: step_impl: Test Case Passed... | Login Failure!
