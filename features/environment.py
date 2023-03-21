@@ -29,7 +29,7 @@ def before_all(context):
 
 
 def before_scenario(context, driver):
-    url = configReader.readConfig('basic info', 'test_site_url').lower().strip()
+    context.url = url = configReader.readConfig('basic info', 'test_site_url').lower().strip()
     run_type = configReader.readConfig('basic info', 'run_type').lower().strip()
     selenium_hub_url = 'http://localhost:4444/hub'
 
@@ -68,7 +68,6 @@ def before_scenario(context, driver):
                                               desired_capabilities=DesiredCapabilities.FIREFOX, options=firefox_options)
         else:
             context.driver = webdriver.Firefox(options=firefox_options)
-
     context.driver.get(url)
 
 

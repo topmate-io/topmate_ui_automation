@@ -44,7 +44,7 @@ COPY utilities utilities/
 COPY test_data test_data/
 COPY behave.ini behave.ini
 
-RUN mkdir reports/
+RUN mkdir reports/ && mkdir logs/
 
 COPY entrypoint_ui_automation.sh entrypoint_ui_automation.sh
 
