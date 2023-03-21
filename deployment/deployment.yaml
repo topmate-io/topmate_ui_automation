@@ -3,30 +3,21 @@ kind: ServiceAccount
 metadata:
   name: sa-default
   annotations:
-    iam.gke.io/gcp-service-account: development-sa-topmate-api@<environment>-topmate-api.iam.gserviceaccount.com
+    iam.gke.io/gcp-service-account: development-sa-topmate-api@development-topmate-api-232536.iam.gserviceaccount.com
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: ui-test-automation
   namespace: default
 spec:
-  replicas: 1
-  revisionHistoryLimit: 3
-  minReadySeconds: 20
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
-  selector:
-    matchLabels:
-      app: ui-test-automation
+  ttlSecondsAfterFinished: 100
   template:
     metadata:
       labels:
         app: ui-test-automation
     spec:
-      terminationGracePeriodSeconds: 60
+      terminationGracePeriodSeconds: 120
       serviceAccountName: sa-default
       containers:
       - name: ui-test-automation
@@ -39,7 +30,10 @@ spec:
             limits:
               cpu: 2048m
               memory: 3000Mi
-
+        env:
+          - name: BROWSER
+            value: chrome
+      restartPolicy: Never
       tolerations:
       - key: instance_type
         value: spot
