@@ -12,8 +12,13 @@ from utilities.util_helper import UtilHelper
 
 
 def before_all(context):
+    url = context.config.userdata.get('url')
     browser = context.config.userdata.get('browser')
     headless = context.config.userdata.get('headless')
+    if url is None:
+        context.url = configReader.readConfig('basic info', 'test_site_url').lower().strip()
+    else:
+        context.url = url
     if browser is None:
         context.browser = configReader.readConfig('basic info', 'browser').lower().strip()
     else:
@@ -25,11 +30,10 @@ def before_all(context):
         context.headless = headless
 
     os.environ['browser'] = context.browser
-    print(f'BROWSER: {context.browser} | HEADLESS: {context.headless}')
+    print(f'BROWSER: {context.browser} | HEADLESS: {context.headless} | URL: {context.url}')
 
 
 def before_scenario(context, driver):
-    context.url = url = configReader.readConfig('basic info', 'test_site_url').lower().strip()
     run_type = configReader.readConfig('basic info', 'run_type').lower().strip()
     selenium_hub_url = 'http://localhost:4444/hub'
 
@@ -68,7 +72,7 @@ def before_scenario(context, driver):
                                               desired_capabilities=DesiredCapabilities.FIREFOX, options=firefox_options)
         else:
             context.driver = webdriver.Firefox(options=firefox_options)
-    context.driver.get(url)
+    context.driver.get(context.url)
 
 
 def after_step(context, step):
@@ -81,12 +85,3 @@ def after_step(context, step):
 
 def after_scenario(context, driver):
     context.driver.quit()
-
-# def after_all(context):
-#     filepath = './test_data/creds.json'
-#     json_data = UtilHelper.read_JSON(filepath)
-#     sender_email_id = json_data.get('gmail').get('sender').get('email_id')
-#     sender_password = json_data.get('gmail').get('sender').get('password')
-#     receiver_email_id_list = json_data.get('gmail').get('receiver')
-#
-#     Mail_Util.send_mail(context.browser, sender_email_id, sender_password, receiver_email_id_list)
