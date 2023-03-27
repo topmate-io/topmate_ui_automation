@@ -14,6 +14,7 @@ def wait_for_element_to_be_visible(driver, locator_name: str, time_out: int):
         expected_conditions.visibility_of_element_located((By.ID, locator_name)))
     return element
 
+
 chrome_options = ChromeOptions()
 chrome_options.headless = True
 driver = webdriver.Chrome(options=chrome_options)
