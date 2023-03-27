@@ -38,6 +38,9 @@ WORKDIR /topmate_ui_automation
 ARG BROWSER
 ENV BROWSER=$BROWSER
 
+ARG URL
+ENV URL=$URL
+
 COPY config config/
 COPY features features/
 COPY utilities utilities/
