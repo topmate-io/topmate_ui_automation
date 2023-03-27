@@ -1,5 +1,3 @@
-import sys
-
 from behave import *
 from features.pageobjects.EntryPage import EntryPage
 from features.pageobjects.HomePage import HomePage
