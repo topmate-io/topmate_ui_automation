@@ -23,7 +23,7 @@ class PublicProfileBookingPage(BasePage):
         # date_slot_box_element = self.wait_for_element_to_be_visible('date_slot_box_CSS', 10)
         # self.hover_on_element(date_slot_box_element)
         # date_slot_list = self.wait_for_all_elements_to_be_visible('date_slot_list_CSS', 5)
-        # random_date_slot = date_slot_list[UtilHelper.get_random_number(0, len(date_slot_list))]
+        # random_date_slot = date_slot_list[UtilHelper.get_random_number(0, len(date_slot_list)-1)]
         # self.scroll_to_element(random_date_slot)
         # self.click(random_date_slot)
         # log.info(f'time slot: {self.get_text(random_date_slot)} has been set successfully')
@@ -45,7 +45,7 @@ class PublicProfileBookingPage(BasePage):
         time_slot_box_element = self.get_element('time_slot_box_CSS')
         self.hover_on_element(time_slot_box_element)
         time_slot_list = self.wait_for_all_elements_to_be_visible('time_slot_list_CSS', 10)
-        random_time_slot = time_slot_list[UtilHelper.get_random_number(0, len(time_slot_list))]
+        random_time_slot = time_slot_list[UtilHelper.get_random_number(0, len(time_slot_list)-1)]
         self.scroll_to_element(random_time_slot)
         self.click(random_time_slot)
         log.info(f'time slot: {self.get_text(random_time_slot)} has been set successfully')

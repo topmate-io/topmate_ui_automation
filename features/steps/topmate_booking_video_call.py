@@ -64,7 +64,7 @@ def step_impl(context):
 def step_impl(context):
     assert context.public_profile_booking_form_page.verify_payment_tab_is_open('Topmate'), "Payment tab is not open"
     for row in context.table:
-        context.public_profile_booking_form_page.choose_payment_type(row['payment mode'])
+        context.public_profile_booking_form_page.choose_payment_mode(row['payment mode'])
         context.public_profile_booking_form_page.choose_payment_bank(row['payment bank'])
         time.sleep(10)
 
@@ -84,4 +84,5 @@ def step_impl(context):
     for row in context.table:
         booking_status = context.public_profile_booking_form_page.verify_booking_status(row['expected message1'],
                                                                                         row['expected message2'])
-        assert booking_status, "Booking Status is Failed!"
+        assert booking_status, f"Booking Status {row['expected message2']}: FAILED!"
+        log.info(f"Booking Status {row['expected message2']}: SUCCESS!")

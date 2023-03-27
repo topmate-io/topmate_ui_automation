@@ -51,20 +51,20 @@ class PublicProfileBookingFormPage(BasePage):
             return True
         return False
 
-    def choose_payment_type(self, payment_mode: str):
+    def choose_payment_mode(self, payment_mode: str):
         log.info(f'choosing payment type: {payment_mode}')
         payment_type_locator_value = self.get_locator('payment_type_XPATH').replace('[replace payment_type here]',
                                                                                     payment_mode)
-        payment_type_element = self.wait_for_element_to_be_visible_with_locator_value(payment_type_locator_value,
+        payment_mode_element = self.wait_for_element_to_be_clickable_with_locator_value(payment_type_locator_value,
                                                                                       'XPATH', 10)
-        self.click(payment_type_element)
-        log.info(f'payment type: {payment_mode} has been chosed successfully')
+        self.click(payment_mode_element)
+        log.info(f'payment type: {payment_mode} has been chosen successfully')
 
     def choose_payment_bank(self, payment_bank: str):
         log.info(f'choosing payment bank: {payment_bank}')
         payment_bank_locator_value = self.get_locator('payment_bank_XPATH').replace('[replace payment_bank here]',
                                                                                     payment_bank)
-        payment_bank_element = self.wait_for_element_to_be_visible_with_locator_value(payment_bank_locator_value,
+        payment_bank_element = self.wait_for_element_to_be_clickable_with_locator_value(payment_bank_locator_value,
                                                                                       'XPATH', 10)
         self.click(payment_bank_element)
         log.info(f'payment bank: {payment_bank} has been chosen successfully')
@@ -100,5 +100,4 @@ class PublicProfileBookingFormPage(BasePage):
         log.info(f'expected service_title_text: {expected_message2}')
         log.info(f'actual service_title_text: {service_title_text}')
         if booking_status_message == expected_message1 and service_title_text == expected_message2:
-            log.info('Booking Status is SUCCESS')
             return True
