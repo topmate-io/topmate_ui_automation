@@ -9,9 +9,11 @@ log = log_util.get_logs()
 
 class PublicProfileBookingPage(BasePage):
 
-    def __init__(self, driver):
+    def __init__(self, driver, duration):
         super().__init__(driver)
-        self.wait_for_element_to_be_visible('video_call_description_XPATH', 10)
+        video_call_description_heading_locator = self.get_locator('video_call_description_XPATH').replace(
+            '[replace duration here]', str(duration))
+        self.wait_for_element_to_be_visible_with_locator_value(video_call_description_heading_locator, 'XPATH', 10)
         log.info('Successfully navigated to Booking Page of Public Profile')
 
     def pick_random_date(self):
@@ -52,5 +54,7 @@ class PublicProfileBookingPage(BasePage):
         log.info('confirming booking details')
         confirm_button = self.get_element('confirm_button_CSS')
         self.click(confirm_button)
-        log.info('Booking Details has been confirmed successfully')
+        log.info('booking details has been confirmed successfully')
+
+
 

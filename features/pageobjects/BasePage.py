@@ -41,8 +41,13 @@ class BasePage:
                 element = self.driver.find_element(By.LINK_TEXT, self.get_locator(locator_name))
             elif str(locator_name).endswith('PARTIAL_LINK_TEXT'):
                 element = self.driver.find_element(By.PARTIAL_LINK_TEXT, self.get_locator(locator_name))
+            log.info('element is found successfully')
+        except selenium.common.exceptions.NoSuchElementException as e:
+            log.error(
+                f"Not able to get element | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | Exception Type: {type(e).__name__}")
         except Exception as e:
-            log.error(f"Not able to get element | Detailed description: {e}")
+            log.error(
+                f"Not able to get element | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | Exception Type: {type(e).__name__} | Detailed description: {e}")
 
         return element
 
@@ -68,8 +73,12 @@ class BasePage:
                 element_list = self.driver.find_elements(By.LINK_TEXT, self.get_locator(locator_name))
             elif str(locator_name).endswith('PARTIAL_LINK_TEXT'):
                 element_list = self.driver.find_elements(By.PARTIAL_LINK_TEXT, self.get_locator(locator_name))
+            log.info('element list is found successfully')
+        except selenium.common.exceptions.NoSuchElementException as e:
+            log.error(
+                f"Not able to get element | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | Exception Type: {type(e).__name__}")
         except Exception as e:
-            log.error(f"Not able to get element list | Detailed description: {e}")
+            log.error(f"Not able to get element list | Exception Type: {type(e).__name__} | Detailed description: {e}")
 
         return element_list
 
@@ -109,13 +118,61 @@ class BasePage:
                 element = WebDriverWait(self.driver, time_in_seconds).until(
                     expected_conditions.visibility_of_element_located(
                         (By.PARTIAL_LINK_TEXT, self.get_locator(locator_name))))
-        except selenium.common.exceptions.TimeoutException as e:
+            log.info('element is found successfully')
+        except selenium.common.exceptions.NoSuchElementException as e:
+            log.error(
+                f"Not able to get element | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | Exception Type: {type(e).__name__}")
+        except selenium.common.exceptions.TimeoutException:
             log.error(
                 f"TIME OUT ERROR Occurred! Element not visible | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | wait_time: {time_in_seconds} seconds")
         except Exception as e:
             log.info(
                 f"Exception Occurred! | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | wait_time: {time_in_seconds}")
-            log.error(f" Detailed Exception: {e}")
+            log.error(f"Exception Type: {type(e).__name__} | Detailed Exception: {e}")
+        return element
+
+    def wait_for_element_to_be_visible_with_locator_value(self, locator_value: str, locator_type: str,
+                                                          time_in_seconds: int):
+
+        global element
+        try:
+            if locator_type == 'ID':
+                element = WebDriverWait(self.driver, time_in_seconds).until(
+                    expected_conditions.visibility_of_element_located((By.ID, locator_value)))
+            elif locator_type == 'XPATH':
+                element = WebDriverWait(self.driver, time_in_seconds).until(
+                    expected_conditions.visibility_of_element_located((By.XPATH, locator_value)))
+            elif locator_type == 'CSS':
+                element = WebDriverWait(self.driver, time_in_seconds).until(
+                    expected_conditions.visibility_of_element_located(
+                        (By.CSS_SELECTOR, locator_value)))
+            elif locator_type == 'NAME':
+                element = WebDriverWait(self.driver, time_in_seconds).until(
+                    expected_conditions.visibility_of_element_located((By.NAME, locator_value)))
+            elif locator_type == 'TAG_NAME':
+                element = WebDriverWait(self.driver, time_in_seconds).until(
+                    expected_conditions.visibility_of_element_located((By.TAG_NAME, locator_value)))
+            elif locator_type == 'CLASS_NAME':
+                element = WebDriverWait(self.driver, time_in_seconds).until(
+                    expected_conditions.visibility_of_element_located((By.CLASS_NAME, locator_value)))
+            elif locator_type == 'LINK_TEXT':
+                element = WebDriverWait(self.driver, time_in_seconds).until(
+                    expected_conditions.visibility_of_element_located((By.LINK_TEXT, locator_value)))
+            elif locator_type == 'PARTIAL_LINK_TEXT':
+                element = WebDriverWait(self.driver, time_in_seconds).until(
+                    expected_conditions.visibility_of_element_located(
+                        (By.PARTIAL_LINK_TEXT, locator_value)))
+            log.info('element is found successfully')
+        except selenium.common.exceptions.NoSuchElementException as e:
+            log.error(
+                f"Not able to get element | locator_value: {self.get_locator(locator_value)} | locator_type: {locator_type} | Exception Type: {type(e).__name__}")
+        except selenium.common.exceptions.TimeoutException:
+            log.error(
+                f"TIME OUT ERROR Occurred! Element not visible | locator_value: {locator_value} | locator_type: {locator_type} | wait_time: {time_in_seconds} seconds")
+        except Exception as e:
+            log.info(
+                f"Exception Occurred! | locator_value: {locator_value} | wait_time: {time_in_seconds}")
+            log.error(f"Exception Type: {type(e).__name__} | Detailed Exception: {e}")
         return element
 
     def wait_for_all_elements_to_be_visible(self, locator_name: str, time_in_seconds: int):
@@ -151,13 +208,14 @@ class BasePage:
                 element_list = WebDriverWait(self.driver, time_in_seconds).until(
                     expected_conditions.visibility_of_all_elements_located(
                         (By.PARTIAL_LINK_TEXT, self.get_locator(locator_name))))
-        except selenium.common.exceptions.TimeoutException as e:
+            log.info('all elements are found successfully')
+        except selenium.common.exceptions.TimeoutException:
             log.error(
                 f"TIME OUT ERROR Occurred! All Elements not visible | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | wait_time: {time_in_seconds} seconds")
         except Exception as e:
             log.info(
                 f"Exception Occurred! | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | wait_time: {time_in_seconds}")
-            log.error(f" Detailed Exception: {e}")
+            log.error(f"Exception Type: {type(e).__name__} | Detailed Exception: {e}")
 
         return element_list
 
@@ -195,7 +253,7 @@ class BasePage:
         except Exception as e:
             log.info(
                 f"Exception Occurred! | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | wait_time: {time_in_seconds}")
-            log.error(f" Detailed Exception: {e}")
+            log.error(f"Exception Type: {type(e).__name__} | Detailed Exception: {e}")
 
         return element
 
@@ -210,35 +268,40 @@ class BasePage:
             element.click()
             log.info(f'element is clicked successfully')
         except Exception as e:
-            log.error(f"Not able to click element: {element.text} | Detailed Exception: {e}")
+            log.error(
+                f"Not able to click element: {element.text} | Exception Type: {type(e).__name__} | Detailed Exception: {e}")
 
     def right_click(self, element):
         try:
             ActionChains(self.driver).context_click(element).perform()
             log.info(f'element: {element.text} is right-clicked successfully')
         except Exception as e:
-            log.error(f"Not able to right-click element: {element.text} | Detailed Exception: {e}")
+            log.error(
+                f"Not able to right-click element: {element.text} | Exception Type: {type(e).__name__} | Detailed Exception: {e}")
 
     def double_click(self, element):
         try:
             ActionChains(self.driver).double_click(element).perform()
             log.info(f'element: {element.text} is double-clicked successfully')
         except Exception as e:
-            log.error(f"Not able to double click element: {element.text} | Detailed Exception: {e}")
+            log.error(
+                f"Not able to double click element: {element.text} | Exception Type: {type(e).__name__} | Detailed Exception: {e}")
 
     def hover_and_click(self, element):
         try:
             ActionChains(self.driver).move_to_element(element).click().perform()
             log.info("Successfully hovered to and clicked an element: " + str(element.text))
         except Exception as e:
-            log.error(f"Not able to hover and click element | Detailed Exception: {e}")
+            log.error(
+                f"Not able to hover and click element | Exception Type: {type(e).__name__} | Detailed Exception: {e}")
 
     def hover_on_element(self, element):
         try:
             ActionChains(self.driver).move_to_element(element).perform()
             log.info(f"successfully hovered to an element: {element.text}")
         except Exception as e:
-            log.error(f"Not able to hovering on element: {(element.text)}  | Detailed Exception: {e}")
+            log.error(
+                f"Not able to hovering on element: {(element.text)}  | Exception Type: {type(e).__name__} | Detailed Exception: {e}")
 
     def drag_and_drop(self, source_element, target_element):
         try:
@@ -253,7 +316,7 @@ class BasePage:
             element.send_keys(value)
             log.info(f'successfully typed {value}')
         except Exception as e:
-            log.error(f"Not able to type {value} | Detailed Exception: {e}")
+            log.error(f"Not able to type {value} | Exception Type: {type(e).__name__} | Detailed Exception: {e}")
 
     def type_using_JS(self, locator_name, value):
         try:
@@ -261,42 +324,55 @@ class BasePage:
             self.driver.execute_script(f"return document.getElementById({locator_id}).value={value}")
             log.info(f'successfully typed {value}')
         except Exception as e:
-            log.error(f"Not able to type {value} | Detailed Exception: {e}")
+            log.error(f"Not able to type {value} | Exception Type: {type(e).__name__} | Detailed Exception: {e}")
 
     def select_from_dropdown(self, element, value):
         try:
             Select(element).select_by_visible_text(value)
             log.info(f'value: {value} from dropdown: {element.text} is selected successfully')
         except Exception as e:
-            log.error(f"Not able to select value: {value} from dropdown: {element.text} | Detailed Exception: {e}")
+            log.error(
+                f"Not able to select value: {value} from dropdown: {element.text} | Exception Type: {type(e).__name__} | Detailed Exception: {e}")
 
     def press_enter(self, element):
         try:
             element.send_keys(Keys.ENTER)
             log.info(f'ENTER pressed successfully on element')
         except Exception as e:
-            log.error(f"Not able to press ENTER on element: {element.text} | Detailed Exception: {e}")
+            log.error(
+                f"Not able to press ENTER on element: {element.text} | Exception Type: {type(e).__name__} | Detailed Exception: {e}")
 
     def press_down_arrow(self, element):
         try:
             element.send_keys(Keys.DOWN)
             log.info(f'DOWN ARROW pressed successfully on element:')
         except Exception as e:
-            log.error(f"Not able to press DOWN ARROW on element: | Detailed Exception: {e}")
+            log.error(
+                f"Not able to press DOWN ARROW on element: | Exception Type: {type(e).__name__} | Detailed Exception: {e}")
 
     def press_up_arrow(self, element):
         try:
             element.send_keys(Keys.UP)
             log.info(f'UP ARROW pressed successfully on element:')
         except Exception as e:
-            log.error(f"Not able to press UP ARROW on element: {element.text} | Detailed Exception: {e}")
+            log.error(
+                f"Not able to press UP ARROW on element: {element.text} | Exception Type: {type(e).__name__} | Detailed Exception: {e}")
 
     def scroll_to_element(self, element):
         try:
             ActionChains(self.driver).scroll_to_element(element).perform()
             log.info(f'scrolled to {element.text} is successfully')
         except Exception as e:
-            log.error(f"Not able to scroll to element: {element.text} | Detailed Exception: {e}")
+            log.error(
+                f"Not able to scroll to element: {element.text} | Exception Type: {type(e).__name__} | Detailed Exception: {e}")
+
+    def scroll_to_bottom_of_page_using_JS(self):
+        try:
+            self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            log.info('Successfully scrolled to bottom of the page')
+        except Exception as e:
+            log.error(
+                f"Not able to scroll to bottom of page | Exception Type: {type(e).__name__} | Detailed Exception: {e}")
 
     def get_alert(self, alert_text):
         global alert
@@ -307,7 +383,7 @@ class BasePage:
             log.info(f'Alert is found | alert text: {text}')
             assert alert_text == text, f"Alert Text mismatch | Expected: {alert_text} Actual: {text}"
         except Exception as e:
-            log.error(f'Getting Alert is failed | Detailed Exception: {e}')
+            log.error(f'Getting Alert is failed | Exception Type: {type(e).__name__} | Detailed Exception: {e}')
         return alert
 
     def accept_alert(self, alert_text):
@@ -326,4 +402,38 @@ class BasePage:
             self.driver.maximize_window()
             log.info('Window is maximized successfully')
         except Exception as e:
-            log.error(f'Maximizing window is failed | Deatiled Exception: {e}')
+            log.error(f'Maximizing window is failed | Exception Type: {type(e).__name__} | Detailed Exception: {e}')
+
+    def switch_to_frame(self, element):
+        try:
+            self.driver.switch_to.frame(element)
+            log.info('Successfully switched to frame')
+        except Exception as e:
+            log.error(f'Not able to switch to frame | Exception Type: {type(e).__name__} | Detailed Exception: {e}')
+
+    def switch_to_parent_frame(self):
+        try:
+            self.driver.switch_to.default_content()
+            log.info('Successfully switched to parent frame')
+        except Exception as e:
+            log.error(
+                f'Not able to switch to parent frame | Exception Type: {type(e).__name__} | Detailed Exception: {e}')
+
+    def switch_to_active_element(self):
+        try:
+            element = self.driver.switch_to.active_element()
+            log.info('Successfully switched to element')
+            return element
+        except Exception as e:
+            log.error(f'Not able to switch to element | Exception Type: {type(e).__name__} | Detailed Exception: {e}')
+        return None
+
+    def switch_to_first_child_window(self):
+        log.info(f'switching to first child window')
+        self.driver.switch_to.window(self.driver.window_handles[1])
+        log.info(f'successfully switched to first child window: {self.get_title()}')
+
+    def switch_back_to_parent_window(self):
+        log.info(f'switching back to parent window')
+        self.driver.switch_to.window(self.driver.window_handles[0])
+        log.info('successfully switched back to parent window')

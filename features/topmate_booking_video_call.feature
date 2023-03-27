@@ -3,21 +3,21 @@ Feature: As an user I want to test booking functionality for video call of topma
   Background:
     Given user navigates to public profile page of topmate with user "automate_topmate"
 
-  @smoke
+  @regression
   Scenario: Validating the booking functionality for 15 minutes video call of topmate.io from public profile
-    Given user clicks on video call booking for "15" minutes
-    When user picks a random date
-    And user choose timezone "IST"
-    And user picks a random time
-    And user confirms booking details
-    And user fills up the booking form with user deatils
-      | name      | email                | what is the call about | Phone Number | Receive Booking Details |
-      | Test_User | dipanjan56@gmail.com | For Testing            | 0123456789   | yes                     |
+    Given user clicks on video call booking for "30" minutes
+    When user books meeting with time and date for "30" minutes video call
+      | date   | time   | timezone |
+      | random | random | IST      |
+    And user fills up the booking form for "30" minutes video call with user details
+      | name      | email                | what is the call about | Phone Number |
+      | Test_User | dipanjan56@gmail.com | For Testing            | 1234567890   |
     And user clicks on Confirm and Pay
     And user choose payment type
-      | payment mode | bank |
-      | NetBanking   | PNB  |
+      | payment mode | payment bank |
+      | Netbanking   | Axis         |
     And user clicks on Pay Now
     And user choose payment status as "Success"
-    Then verify payment status as "Success"
-    And verify booking is confirmed for the selected time and date
+    Then verify booking is confirmed for the selected time and date
+      | expected message1 | expected message2      |
+      | Booking confirmed | for 30 mins video call |
