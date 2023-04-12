@@ -1,18 +1,18 @@
 import smtplib
 import ssl
+import pytz
 from email.message import EmailMessage
 from email.mime.text import MIMEText
 from datetime import datetime
 from typing import List
-from zoneinfo import ZoneInfo
 
-from .report_util import ReportUtil
-from .util_helper import UtilHelper
+from utilities.report_util import ReportUtil
+from utilities.util_helper import UtilHelper
 
 
 def generate_mailer_body(browser, sender_email_id, receiver__email_id_list: List[str]) -> str:
     """This Method returns Email message Subject, mail Body of the mail"""
-    current_time = datetime.now(tz=ZoneInfo('Asia/Kolkata')).strftime('%d/%m/%y %I:%M %p')
+    current_time = datetime.now(tz=pytz.timezone('Asia/Kolkata')).strftime('%d/%m/%y %I:%M %p')
     subject = f"Automation Status | Browser: {browser} | {current_time}"
     allure_report_path = ReportUtil.upload_report_to_S3()
     print(allure_report_path)

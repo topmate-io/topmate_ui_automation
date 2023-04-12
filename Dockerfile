@@ -19,19 +19,11 @@ RUN apt update && apt install -y npm
 # install allure-command-line via npm package manager
 RUN npm install -g allure-commandline --save-dev
 
+COPY requirements.txt .
 
 # Install required libraries
 RUN pip install --upgrade pip && \
-    pip3 install selenium && \
-    pip3 install pytest && \
-    pip3 install behave && \
-    pip3 install allure-behave && \
-    pip3 install allure-python-commons && \
-    pip3 install pandas && \
-    pip3 install pause && \
-    pip3 install PyYAML && \
-    pip3 install requests && \
-    pip3 install awscli
+    pip3 install -r requirements.txt
 
 WORKDIR /topmate_ui_automation
 

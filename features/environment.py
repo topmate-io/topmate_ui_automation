@@ -5,6 +5,7 @@ import allure
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.chrome.options import Options as ChromeOptions
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
 from utilities import configReader
@@ -57,7 +58,8 @@ def before_scenario(context, driver):
             context.driver = webdriver.Remote(command_executor=selenium_hub_url,
                                               desired_capabilities=DesiredCapabilities.CHROME, options=chrome_options)
         else:
-            context.driver = webdriver.Chrome(options=chrome_options)
+            context.driver = webdriver.Chrome(ChromeDriverManager(version="111.0.5563.64").install(), chrome_options=chrome_options)
+            # context.driver = webdriver.Chrome(options=chrome_options)
             # context.driver = WebDriver(options=chrome_options)
 
     if context.browser == 'firefox':

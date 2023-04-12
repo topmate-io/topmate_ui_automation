@@ -3,9 +3,8 @@ import os
 import random
 import string
 import uuid
-from datetime import datetime
-from datetime import timedelta
-from zoneinfo import ZoneInfo
+import pytz
+from datetime import datetime, timedelta
 import pandas as pd
 import pause
 import yaml
@@ -36,17 +35,17 @@ class UtilHelper:
 
     @staticmethod
     def get_current_time_IST():
-        current_time = datetime.now(tz=ZoneInfo('Asia/Kolkata')).strftime("%H:%M:%S")
+        current_time = datetime.now(tz=pytz.timezone('Asia/Kolkata')).strftime("%H:%M:%S")
         return current_time
 
     @staticmethod
     def get_current_time_with_date_IST():
-        current_time = datetime.now(tz=ZoneInfo('Asia/Kolkata')).strftime("%d.%m.%Y/%H:%M:%S")
+        current_time = datetime.now(tz=pytz.timezone('Asia/Kolkata')).strftime("%d.%m.%Y/%H:%M:%S")
         return current_time
 
     @staticmethod
     def get_current_day_IST():
-        current_time = datetime.now(tz=ZoneInfo('Asia/Kolkata')).strftime("%A")
+        current_time = datetime.now(tz=pytz.timezone('Asia/Kolkata')).strftime("%A")
         return current_time
 
     @staticmethod
