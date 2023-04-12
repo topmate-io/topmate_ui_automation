@@ -1,0 +1,44 @@
+---
+name: Build and Push Dev Image to Google Cloud Platform
+on:
+  push:
+    branches: [ develop ]
+jobs:
+  build-image-to-dev-registry:
+    name: Build and Push to GCP
+    runs-on: ubuntu-latest
+    environment: development
+    env:
+      IMAGE_NAME: topmate-ui-test-automation
+      PROJECT_ID: development-topmate-api-232536
+      ENVIRONMENT: master
+      REGION: us-west2
+    permissions:
+      actions: 'write'
+      contents: 'write'
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: 'Authenticate Service Account'
+      id: 'auth'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: '${{ secrets.SERVICE_ACCOUNT_KEY }}'
+
+    - name: 'Setup gcloud SDK'
+      uses: google-github-actions/setup-gcloud@v1
+
+    - name: Build Docker Image
+      run: docker build -t $IMAGE_NAME:latest -f ./deployment/Dockerfile .
+    
+    - name: Configure Docker Client
+      run: |-
+        gcloud auth configure-docker --quiet
+        gcloud auth configure-docker $REGION-docker.pkg.dev --quiet
+
+    - name: Push Docker Image to Artifact Registry
+      id: build-image
+      run: |-
+        docker tag $IMAGE_NAME:latest $REGION-docker.pkg.dev/$PROJECT_ID/$IMAGE_NAME/$ENVIRONMENT:latest
+        docker push $REGION-docker.pkg.dev/$PROJECT_ID/$IMAGE_NAME/$ENVIRONMENT:latest
