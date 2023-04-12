@@ -2,7 +2,7 @@
 name: Build and Push Dev Image to Google Cloud Platform
 on:
   push:
-    branches: [ develop ]
+    branches: [ master ]
 jobs:
   build-image-to-dev-registry:
     name: Build and Push to GCP
