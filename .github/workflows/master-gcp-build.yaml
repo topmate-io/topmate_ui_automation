@@ -30,7 +30,7 @@ jobs:
       uses: google-github-actions/setup-gcloud@v1
 
     - name: Build Docker Image
-      run: docker build -t $IMAGE_NAME:latest -f ./deployment/Dockerfile .
+      run: docker build -t $IMAGE_NAME:latest -f ./Dockerfile .
     
     - name: Configure Docker Client
       run: |-
