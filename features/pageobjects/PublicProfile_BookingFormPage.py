@@ -1,5 +1,7 @@
 import time
 
+from api.api_utils import api_requests
+from api.endpoints import endpoints
 from features.pageobjects.BasePage import BasePage
 from utilities import log_util
 
@@ -36,7 +38,7 @@ class PublicProfileBookingFormPage(BasePage):
     def user_click_on_confirm_pay(self):
         log.info('Clicking on Confirm and Pay')
         confirm_pay_button = self.get_element('confirm_pay_XPATH')
-        self.scroll_to_bottom_of_page_using_JS()
+        self.scroll_into_view_middle_JS(confirm_pay_button)
         self.click(confirm_pay_button)
 
     def verify_payment_tab_is_open(self, payment_tab_title: str):
@@ -101,3 +103,19 @@ class PublicProfileBookingFormPage(BasePage):
         log.info(f'actual service_title_text: {service_title_text}')
         if booking_status_message == expected_message1 and service_title_text == expected_message2:
             return True
+
+    def get_bookingID_from_page_title(self) -> str:
+        url = self.get_present_url()
+        booking_id = str(url).split('?')[0].split('/')[-1]
+        return booking_id
+
+
+#################################################################--API--#########################################################################################
+
+    def get_payment_status_API(self, booking_id):
+        self.wait(10)
+        host = 'https://gravitron.run'
+        endpoint = endpoints.get_booking_status_endpoint(booking_id)
+        res_json = api_requests.get(host=host, endpoint=endpoint)
+        return res_json.get('status')
+

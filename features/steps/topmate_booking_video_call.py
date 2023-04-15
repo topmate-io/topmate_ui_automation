@@ -35,7 +35,7 @@ def step_impl(context, duration):
             pass
 
         """Choosing a timezone"""
-        context.public_profile_booking_page.choose_time_zone(row['timezone'])
+        # context.public_profile_booking_page.choose_time_zone(row['timezone'])
 
         """Choosing a time slot"""
         if row['time'] == 'random':
@@ -86,3 +86,11 @@ def step_impl(context):
                                                                                         row['expected message2'])
         assert booking_status, f"Booking Status {row['expected message2']}: FAILED!"
         log.info(f"Booking Status {row['expected message2']}: SUCCESS!")
+
+
+@then("API: user verify payment status as '{expected_payment_status}'")
+def step_impl(context, expected_payment_status):
+    booking_id = context.public_profile_booking_form_page.get_bookingID_from_page_title()
+    actual_payment_status = context.public_profile_booking_form_page.get_payment_status_API(booking_id)
+    assert expected_payment_status == actual_payment_status, f"Expected Payment Status: {expected_payment_status} | Actual Payment status: {actual_payment_status}: FAILED!"
+    log.info(f"Expected Payment Status: {expected_payment_status} | Actual Payment status: {actual_payment_status}: SUCCESS!")
