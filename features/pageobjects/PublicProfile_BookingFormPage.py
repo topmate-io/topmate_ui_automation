@@ -58,7 +58,7 @@ class PublicProfileBookingFormPage(BasePage):
         payment_type_locator_value = self.get_locator('payment_type_XPATH').replace('[replace payment_type here]',
                                                                                     payment_mode)
         payment_mode_element = self.wait_for_element_to_be_clickable_with_locator_value(payment_type_locator_value,
-                                                                                      'XPATH', 10)
+                                                                                        'XPATH', 10)
         self.click(payment_mode_element)
         log.info(f'payment type: {payment_mode} has been chosen successfully')
 
@@ -67,7 +67,7 @@ class PublicProfileBookingFormPage(BasePage):
         payment_bank_locator_value = self.get_locator('payment_bank_XPATH').replace('[replace payment_bank here]',
                                                                                     payment_bank)
         payment_bank_element = self.wait_for_element_to_be_clickable_with_locator_value(payment_bank_locator_value,
-                                                                                      'XPATH', 10)
+                                                                                        'XPATH', 10)
         self.click(payment_bank_element)
         log.info(f'payment bank: {payment_bank} has been chosen successfully')
 
@@ -89,33 +89,3 @@ class PublicProfileBookingFormPage(BasePage):
         log.info(f'payment_status: {payment_status} has been clicked successfully')
         time.sleep(15)
         self.switch_back_to_parent_window()
-
-    def verify_booking_status(self, expected_message1, expected_message2):
-        log.info('verifying booking status')
-        booking_status_element = self.wait_for_element_to_be_visible('booking_status_CSS', 10)
-        booking_status_message = self.get_text(booking_status_element)
-        log.info(f'expected status message: {expected_message1}')
-        log.info(f'actual status message: {booking_status_message}')
-
-        service_title_element = self.get_element('service_title_CSS')
-        service_title_text = self.get_text(service_title_element)
-        log.info(f'expected service_title_text: {expected_message2}')
-        log.info(f'actual service_title_text: {service_title_text}')
-        if booking_status_message == expected_message1 and service_title_text == expected_message2:
-            return True
-
-    def get_bookingID_from_page_title(self) -> str:
-        url = self.get_present_url()
-        booking_id = str(url).split('?')[0].split('/')[-1]
-        return booking_id
-
-
-#################################################################--API--#########################################################################################
-
-    def get_payment_status_API(self, booking_id):
-        self.wait(10)
-        host = 'https://gravitron.run'
-        endpoint = endpoints.get_booking_status_endpoint(booking_id)
-        res_json = api_requests.get(host=host, endpoint=endpoint)
-        return res_json.get('status')
-
