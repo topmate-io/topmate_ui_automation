@@ -10,12 +10,16 @@ from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
 from utilities import configReader
 from utilities.util_helper import UtilHelper
+from utilities import log_util
+
+log = log_util.get_logs()
 
 
 def before_all(context):
     url = context.config.userdata.get('url')
     browser = context.config.userdata.get('browser')
     headless = context.config.userdata.get('headless')
+
     if url is None:
         context.url = configReader.readConfig('basic info', 'test_site_url').lower().strip()
     else:
@@ -30,6 +34,7 @@ def before_all(context):
     else:
         context.headless = headless
 
+
     os.environ['browser'] = context.browser
     print(f'BROWSER: {context.browser} | HEADLESS: {context.headless} | URL: {context.url}')
 
@@ -37,17 +42,17 @@ def before_all(context):
 def before_scenario(context, driver):
     run_type = configReader.readConfig('basic info', 'run_type').lower().strip()
     selenium_hub_url = 'http://localhost:4444/hub'
-
+    PROXY = "45.133.36.198:8080"
     if context.browser == 'chrome':
         chrome_options = ChromeOptions()
-
         """"--disable-dev-shm-usage" Only added when CI system environment variable is set 
         or when inside a docker instance. The /dev/shm partition is too small in certain VM environments, 
         causing Chrome to fail or crash.
         It overcomes the limited resources problem
         """
         chrome_options.add_argument('--disable-dev-shm-usage')  # overcomes the limited resources problem
-        chrome_options.add_argument('--no-sandbox')  # Bypass OS security model
+        chrome_options.add_argument('--no-sandbox')# Bypass OS security model
+        chrome_options.add_argument(f'--proxy-server=http://{PROXY}')
 
         if context.headless == 'true':
             chrome_options.headless = True
@@ -74,6 +79,7 @@ def before_scenario(context, driver):
                                               desired_capabilities=DesiredCapabilities.FIREFOX, options=firefox_options)
         else:
             context.driver = webdriver.Firefox(options=firefox_options)
+
     context.driver.get(context.url)
 
 

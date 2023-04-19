@@ -1,9 +1,12 @@
 import time
 
 from behave import *
+
+from features.pageobjects.PublicProfile_BookingConfirmationPage import PublicProfileBookingConfirmationPage
 from features.pageobjects.PublicProfile_BookingFormPage import PublicProfileBookingFormPage
 from features.pageobjects.PublicProfile_BookingPage import PublicProfileBookingPage
 from features.pageobjects.PublicProfile_EntryPage import PublicProfileEntryPage
+from features.pageobjects.PublicProfile_StripePaymentPage import PublicProfileStripePaymentPage
 from utilities import log_util
 
 log = log_util.get_logs()
@@ -35,7 +38,7 @@ def step_impl(context, duration):
             pass
 
         """Choosing a timezone"""
-        context.public_profile_booking_page.choose_time_zone(row['timezone'])
+        # context.public_profile_booking_page.choose_time_zone(row['timezone'])
 
         """Choosing a time slot"""
         if row['time'] == 'random':
@@ -81,8 +84,38 @@ def step_impl(context, payment_status):
 
 @step('verify booking is confirmed for the selected time and date')
 def step_impl(context):
+    context.public_profile_booking_confirmation_page = PublicProfileBookingConfirmationPage(context.driver)
     for row in context.table:
-        booking_status = context.public_profile_booking_form_page.verify_booking_status(row['expected message1'],
-                                                                                        row['expected message2'])
+        booking_status = context.public_profile_booking_confirmation_page.verify_booking_status(
+            row['expected message1'],
+            row['expected message2'])
         assert booking_status, f"Booking Status {row['expected message2']}: FAILED!"
         log.info(f"Booking Status {row['expected message2']}: SUCCESS!")
+
+
+@then("API: user verify payment status as '{expected_payment_status}'")
+def step_impl(context, expected_payment_status):
+    booking_id = context.public_profile_booking_confirmation_page.get_bookingID_from_page_title()
+    actual_payment_status = context.public_profile_booking_confirmation_page.get_payment_status_API(booking_id)
+    assert expected_payment_status == actual_payment_status, f"Expected Payment Status: {expected_payment_status} | Actual Payment status: {actual_payment_status}: FAILED!"
+    log.info(
+        f"Expected Payment Status: {expected_payment_status} | Actual Payment status: {actual_payment_status}: SUCCESS!")
+
+
+@step("user fills up card details for stripe payment")
+def step_impl(context):
+    context.public_profile_stripe_payment_page = PublicProfileStripePaymentPage(context.driver)
+    for row in context.table:
+        email_id = row['Email']
+        card_number = row['Card Number']
+        expiry_date = row['Expiry date']
+        cvv = row['CVV']
+        name = row['Name on card']
+        country_region = row['Country Or Region']
+        context.public_profile_stripe_payment_page.user_fills_up_card_details(email_id, card_number, expiry_date, cvv,
+                                                                              name, country_region)
+
+
+@step("user clicks on Pay for stripe payment")
+def step_impl(context):
+    context.public_profile_stripe_payment_page.click_on_pay()
