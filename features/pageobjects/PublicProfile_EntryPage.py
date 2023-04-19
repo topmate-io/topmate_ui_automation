@@ -17,6 +17,6 @@ class PublicProfileEntryPage(BasePage):
 
     def book_video_call(self, duration: int):
         element = self.wait_for_element_to_be_clickable(f'{duration}_min_video_call_XPATH', 10)
-        self.scroll_to_element(element)
+        self.scroll_into_view_middle_JS(element)
         self.hover_and_click(element)
         log.info(f'{duration} minutes video call has been clicked successfully')

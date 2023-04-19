@@ -1,5 +1,7 @@
 import time
 
+from api.api_utils import api_requests
+from api.endpoints import endpoints
 from features.pageobjects.BasePage import BasePage
 from utilities import log_util
 
@@ -36,7 +38,7 @@ class PublicProfileBookingFormPage(BasePage):
     def user_click_on_confirm_pay(self):
         log.info('Clicking on Confirm and Pay')
         confirm_pay_button = self.get_element('confirm_pay_XPATH')
-        self.scroll_to_bottom_of_page_using_JS()
+        self.scroll_into_view_middle_JS(confirm_pay_button)
         self.click(confirm_pay_button)
 
     def verify_payment_tab_is_open(self, payment_tab_title: str):
@@ -56,7 +58,7 @@ class PublicProfileBookingFormPage(BasePage):
         payment_type_locator_value = self.get_locator('payment_type_XPATH').replace('[replace payment_type here]',
                                                                                     payment_mode)
         payment_mode_element = self.wait_for_element_to_be_clickable_with_locator_value(payment_type_locator_value,
-                                                                                      'XPATH', 10)
+                                                                                        'XPATH', 10)
         self.click(payment_mode_element)
         log.info(f'payment type: {payment_mode} has been chosen successfully')
 
@@ -65,7 +67,7 @@ class PublicProfileBookingFormPage(BasePage):
         payment_bank_locator_value = self.get_locator('payment_bank_XPATH').replace('[replace payment_bank here]',
                                                                                     payment_bank)
         payment_bank_element = self.wait_for_element_to_be_clickable_with_locator_value(payment_bank_locator_value,
-                                                                                      'XPATH', 10)
+                                                                                        'XPATH', 10)
         self.click(payment_bank_element)
         log.info(f'payment bank: {payment_bank} has been chosen successfully')
 
@@ -87,17 +89,3 @@ class PublicProfileBookingFormPage(BasePage):
         log.info(f'payment_status: {payment_status} has been clicked successfully')
         time.sleep(15)
         self.switch_back_to_parent_window()
-
-    def verify_booking_status(self, expected_message1, expected_message2):
-        log.info('verifying booking status')
-        booking_status_element = self.wait_for_element_to_be_visible('booking_status_CSS', 10)
-        booking_status_message = self.get_text(booking_status_element)
-        log.info(f'expected status message: {expected_message1}')
-        log.info(f'actual status message: {booking_status_message}')
-
-        service_title_element = self.get_element('service_title_CSS')
-        service_title_text = self.get_text(service_title_element)
-        log.info(f'expected service_title_text: {expected_message2}')
-        log.info(f'actual service_title_text: {service_title_text}')
-        if booking_status_message == expected_message1 and service_title_text == expected_message2:
-            return True

@@ -8,6 +8,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions, wait
 from utilities import configReader
 from utilities import log_util
+from selenium.common.exceptions import *
 
 log = log_util.get_logs()
 
@@ -42,7 +43,7 @@ class BasePage:
             elif str(locator_name).endswith('PARTIAL_LINK_TEXT'):
                 element = self.driver.find_element(By.PARTIAL_LINK_TEXT, self.get_locator(locator_name))
             log.info(f'element: {self.get_text(element)} is found successfully')
-        except selenium.common.exceptions.NoSuchElementException as e:
+        except NoSuchElementException as e:
             log.error(
                 f"Not able to get element | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | Exception Type: {type(e).__name__}")
         except Exception as e:
@@ -74,7 +75,7 @@ class BasePage:
             elif str(locator_name).endswith('PARTIAL_LINK_TEXT'):
                 element_list = self.driver.find_elements(By.PARTIAL_LINK_TEXT, self.get_locator(locator_name))
             log.info('element list is found successfully')
-        except selenium.common.exceptions.NoSuchElementException as e:
+        except NoSuchElementException as e:
             log.error(
                 f"Not able to get element | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | Exception Type: {type(e).__name__}")
         except Exception as e:
@@ -119,10 +120,10 @@ class BasePage:
                     expected_conditions.visibility_of_element_located(
                         (By.PARTIAL_LINK_TEXT, self.get_locator(locator_name))))
             log.info(f'element: {self.get_text(element)} is found successfully')
-        except selenium.common.exceptions.NoSuchElementException as e:
+        except NoSuchElementException as e:
             log.error(
                 f"Not able to get element | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | Exception Type: {type(e).__name__}")
-        except selenium.common.exceptions.TimeoutException:
+        except TimeoutException:
             log.error(
                 f"TIME OUT ERROR Occurred! Element not visible | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | wait_time: {time_in_seconds} seconds")
         except Exception as e:
@@ -163,10 +164,10 @@ class BasePage:
                     expected_conditions.visibility_of_element_located(
                         (By.PARTIAL_LINK_TEXT, locator_value)))
             log.info(f'element: {self.get_text(element)} is found successfully')
-        except selenium.common.exceptions.NoSuchElementException as e:
+        except NoSuchElementException as e:
             log.error(
                 f"Not able to get element | locator_value: {self.get_locator(locator_value)} | locator_type: {locator_type} | Exception Type: {type(e).__name__}")
-        except selenium.common.exceptions.TimeoutException:
+        except TimeoutException:
             log.error(
                 f"TIME OUT ERROR Occurred! Element not visible | locator_value: {locator_value} | locator_type: {locator_type} | wait_time: {time_in_seconds} seconds")
         except Exception as e:
@@ -209,7 +210,7 @@ class BasePage:
                     expected_conditions.visibility_of_all_elements_located(
                         (By.PARTIAL_LINK_TEXT, self.get_locator(locator_name))))
             log.info('all elements are found successfully')
-        except selenium.common.exceptions.TimeoutException:
+        except TimeoutException:
             log.error(
                 f"TIME OUT ERROR Occurred! All Elements not visible | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | wait_time: {time_in_seconds} seconds")
         except Exception as e:
@@ -248,7 +249,7 @@ class BasePage:
                 element = WebDriverWait(self.driver, time_in_seconds).until(
                     expected_conditions.element_to_be_clickable((By.PARTIAL_LINK_TEXT, self.get_locator(locator_name))))
                 log.info(f'clickable element: {self.get_text(element)} is found successfully')
-        except selenium.common.exceptions.TimeoutException as e:
+        except TimeoutException:
             log.error(
                 f"TIME OUT ERROR Occurred! Element not clickable | locator_name: {locator_name} | locator_value: {self.get_locator(locator_name)} | wait_time: {time_in_seconds} seconds")
         except Exception as e:
@@ -290,10 +291,10 @@ class BasePage:
                     expected_conditions.element_to_be_clickable(
                         (By.PARTIAL_LINK_TEXT, locator_value)))
             log.info(f'clickable element: {self.get_text(element)} is found successfully')
-        except selenium.common.exceptions.NoSuchElementException as e:
+        except NoSuchElementException as e:
             log.error(
                 f"Not able to get clickable element | locator_value: {self.get_locator(locator_value)} | locator_type: {locator_type} | Exception Type: {type(e).__name__}")
-        except selenium.common.exceptions.TimeoutException:
+        except TimeoutException:
             log.error(
                 f"TIME OUT ERROR Occurred! Element not clickable | locator_value: {locator_value} | locator_type: {locator_type} | wait_time: {time_in_seconds} seconds")
         except Exception as e:
@@ -340,6 +341,9 @@ class BasePage:
             log.info(f'element: {self.get_text(element)}')
             ActionChains(self.driver).move_to_element(element).click().perform()
             log.info("Successfully hovered to and clicked an element")
+        except MoveTargetOutOfBoundsException as e:
+            log.error(
+                f"Not able to hover and click element: {element.text} | Exception Type: {type(e).__name__} ")
         except Exception as e:
             log.error(
                 f"Not able to hover and click element | Exception Type: {type(e).__name__} | Detailed Exception: {e}")
@@ -349,6 +353,9 @@ class BasePage:
             log.info(f'element: {self.get_text(element)}')
             ActionChains(self.driver).move_to_element(element).perform()
             log.info(f"successfully hovered to an element: {element.text}")
+        except MoveTargetOutOfBoundsException as e:
+            log.error(
+                f"Not able to hover on element: {element.text} | Exception Type: {type(e).__name__} ")
         except Exception as e:
             log.error(
                 f"Not able to hovering on element: {(element.text)}  | Exception Type: {type(e).__name__} | Detailed Exception: {e}")
@@ -420,14 +427,34 @@ class BasePage:
             log.info(f'element: {self.get_text(element)}')
             ActionChains(self.driver).scroll_to_element(element).perform()
             log.info(f'scrolled to {element.text} is successfully')
+        except MoveTargetOutOfBoundsException as e:
+            log.error(
+                f"Not able to scroll to element: {element.text} | Exception Type: {type(e).__name__} ")
         except Exception as e:
             log.error(
                 f"Not able to scroll to element: {element.text} | Exception Type: {type(e).__name__} | Detailed Exception: {e}")
+
+    def scroll_into_view_JS(self, element):
+        try:
+            self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+            log.info(f'successfully scrolled [{self.get_text(element)}] into view')
+            self.wait(5)
+        except Exception as e:
+            log.error(f"Not able to scroll into view | Exception Type: {type(e).__name__} | Detailed Exception: {e}")
+
+    def scroll_into_view_middle_JS(self, element):
+        try:
+            self.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center', inline: 'nearest'})", element)
+            log.info(f'successfully scrolled [{self.get_text(element)}] into view of the middle of the page')
+            self.wait(5)
+        except Exception as e:
+            log.error(f"Not able to scroll into view of middle of the page | Exception Type: {type(e).__name__} | Detailed Exception: {e}")
 
     def scroll_to_bottom_of_page_using_JS(self):
         try:
             self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             log.info('Successfully scrolled to bottom of the page')
+            self.wait(5)
         except Exception as e:
             log.error(
                 f"Not able to scroll to bottom of page | Exception Type: {type(e).__name__} | Detailed Exception: {e}")

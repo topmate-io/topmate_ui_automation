@@ -3,7 +3,7 @@ Feature: As an user I want to test login functionality of topmate.io
   Background:
     Given user navigates to entry page of topmate.io
 
-  @smoke
+  @smoke @abroad
   Scenario Outline: Validating the login functionality with correct username and correct password
     Given user clicks on login
     When user enters username as "<username>" and password as "<password>"
@@ -14,7 +14,7 @@ Feature: As an user I want to test login functionality of topmate.io
       | automate_topmate | 123456   |
 
 
-  @sanity
+  @sanity @abroad
   Scenario Outline: Validating the login functionality with wrong username and correct password
     Given user clicks on login
     When user enters username as "<username>" and password as "<password>"
@@ -25,7 +25,7 @@ Feature: As an user I want to test login functionality of topmate.io
       | automationtopmate@gmail.com | 123456   |
 
 
-  @sanity
+  @sanity @abroad
   Scenario Outline: Validating the login functionality with correct username and wrong password
     Given user clicks on login
     When user enters username as "<username>" and password as "<password>"
