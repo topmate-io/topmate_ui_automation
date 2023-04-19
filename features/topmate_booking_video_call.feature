@@ -14,8 +14,8 @@ Feature: As an user I want to test booking functionality for video call of topma
       | Test_User | test_user_topmate@gmail.com | For Testing            | 1234567890   |
     And user clicks on Confirm and Pay
     And user fills up card details for stripe payment
-      | Email          | Card Number         | Expiry date | CVV | Name on card | Country Or Region |
-      | test@gmail.com | 4242 4242 4242 4242 | 12/34       | 123 | Test User    | Default           |
+      | Email             | Card Number         | Expiry date | CVV | Name on card | Country Or Region |
+      | test543@gmail.com | 4242 4242 4242 4242 | 12/34       | 123 | Test User    | Default           |
     And user clicks on Pay for stripe payment
     Then verify booking is confirmed for the selected time and date
       | expected message1 | expected message2      |

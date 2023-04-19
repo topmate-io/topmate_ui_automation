@@ -38,3 +38,4 @@ class PublicProfileStripePaymentPage(BasePage):
         pay_button = self.get_element('stripe_pay_button_CSS')
         self.click(pay_button)
         log.info('Pay button has been clicked successfully')
+        self.wait(8)

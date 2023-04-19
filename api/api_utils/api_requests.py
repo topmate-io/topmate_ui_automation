@@ -26,7 +26,7 @@ def put(host: str, endpoint: str, payload: json, headers=None, cookies=None) -> 
     return resp_json
 
 
-def delete(host: str, endpoint: str, payload: json, headers=None, cookies=None) -> json:
+def delete(host: str, endpoint: str, headers=None, cookies=None) -> json:
     url = host + endpoint
     response = requests.delete(url=url, headers=headers, cookies=cookies)
     resp_json = check_response_status_code(url, response)
