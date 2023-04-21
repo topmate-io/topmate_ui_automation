@@ -41,6 +41,7 @@ ENV BROWSER=$BROWSER
 ARG URL
 ENV URL=$URL
 
+COPY api api/
 COPY config config/
 COPY features features/
 COPY utilities utilities/
