@@ -26,6 +26,17 @@ def step_impl(context, duration):
     context.public_profile_entry_page.book_video_call(int(duration))
 
 
+@given('user clicks booking service')
+def step_impl(context):
+    for row in context.table:
+        booking_type = row['booking type']
+        duration = row['duration']
+        if booking_type.lower() == 'video call':
+            context.public_profile_entry_page.book_video_call(int(duration))
+        elif booking_type.lower() == 'query':
+            context.public_profile_entry_page.book_query()
+
+
 @when('user books meeting with time and date for "{duration}" minutes video call')
 def step_impl(context, duration):
     context.public_profile_booking_page = PublicProfileBookingPage(context.driver, duration)
@@ -51,9 +62,12 @@ def step_impl(context, duration):
 
 @step('user fills up the booking form for "{duration}" minutes video call with user details')
 def step_impl(context, duration):
-    context.public_profile_booking_form_page = PublicProfileBookingFormPage(context.driver, duration)
+    booking_type = 'video call'
+    booking_duration = duration
+    context.public_profile_booking_form_page = PublicProfileBookingFormPage(context.driver, booking_type,
+                                                                            booking_duration)
     for row in context.table:
-        context.public_profile_booking_form_page.user_fills_up_booking_form_data(row['name'], row['email'],
+        context.public_profile_booking_form_page.user_fills_up_booking_form_data_for_video_call(row['name'], row['email'],
                                                                                  row['what is the call about'],
                                                                                  row['Phone Number'], duration)
 
@@ -86,7 +100,7 @@ def step_impl(context, payment_status):
 def step_impl(context):
     context.public_profile_booking_confirmation_page = PublicProfileBookingConfirmationPage(context.driver)
     for row in context.table:
-        booking_status = context.public_profile_booking_confirmation_page.verify_booking_status(
+        booking_status = context.public_profile_booking_confirmation_page.verify_booking_status_for_video_call(
             row['expected message1'],
             row['expected message2'])
         assert booking_status, f"Booking Status {row['expected message2']}: FAILED!"

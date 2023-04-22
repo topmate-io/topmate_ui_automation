@@ -4,8 +4,10 @@ Feature: As an user I want to test booking functionality for video call of topma
     Given user navigates to public profile page of topmate with user "automate_topmate"
 
   @regression @abroad
-  Scenario: Validating the booking functionality for 15 minutes video call of topmate.io from public profile
-    Given user clicks on video call booking for "15" minutes
+  Scenario: Validating the booking functionality for 15 minutes video call of topmate.io from public profile outside india
+    Given user clicks booking service
+      | booking type | duration |
+      | video call   | 15       |
     When user books meeting with time and date for "15" minutes video call
       | date   | time   | timezone |
       | random | random | IST      |
@@ -23,8 +25,10 @@ Feature: As an user I want to test booking functionality for video call of topma
     And API: user verify payment status as 'upcoming'
 
   @regression @abroad
-  Scenario: Validating the booking functionality for 30 minutes video call of topmate.io from public profile
-    Given user clicks on video call booking for "30" minutes
+  Scenario: Validating the booking functionality for 30 minutes video call of topmate.io from public profile outside india
+    Given user clicks booking service
+      | booking type | duration |
+      | video call   | 30       |
     When user books meeting with time and date for "30" minutes video call
       | date   | time   | timezone |
       | random | random | IST      |
@@ -42,8 +46,10 @@ Feature: As an user I want to test booking functionality for video call of topma
     And API: user verify payment status as 'upcoming'
 
   @regression @abroad
-  Scenario: Validating the booking functionality for 60 minutes video call of topmate.io from public profile
-    Given user clicks on video call booking for "60" minutes
+  Scenario: Validating the booking functionality for 60 minutes video call of topmate.io from public profile outside india
+    Given user clicks booking service
+      | booking type | duration |
+      | video call   | 60       |
     When user books meeting with time and date for "60" minutes video call
       | date   | time   | timezone |
       | random | random | IST      |
@@ -61,8 +67,10 @@ Feature: As an user I want to test booking functionality for video call of topma
     And API: user verify payment status as 'upcoming'
 
   @regression @india
-  Scenario: Validating the booking functionality for 15 minutes video call of topmate.io from public profile
-    Given user clicks on video call booking for "15" minutes
+  Scenario: Validating the booking functionality for 15 minutes video call of topmate.io from public profile in india
+    Given user clicks booking service
+      | booking type | duration |
+      | video call   | 15       |
     When user books meeting with time and date for "15" minutes video call
       | date   | time   | timezone |
       | random | random | IST      |
@@ -81,8 +89,10 @@ Feature: As an user I want to test booking functionality for video call of topma
     And API: user verify payment status as 'upcoming'
 
   @regression @india
-  Scenario: Validating the booking functionality for 30 minutes video call of topmate.io from public profile
-    Given user clicks on video call booking for "30" minutes
+  Scenario: Validating the booking functionality for 30 minutes video call of topmate.io from public profile in india
+    Given user clicks booking service
+      | booking type | duration |
+      | video call   | 30       |
     When user books meeting with time and date for "30" minutes video call
       | date   | time   | timezone |
       | random | random | IST      |
@@ -101,8 +111,10 @@ Feature: As an user I want to test booking functionality for video call of topma
     And API: user verify payment status as 'upcoming'
 
   @regression @india
-  Scenario: Validating the booking functionality for 60 minutes video call of topmate.io from public profile
-    Given user clicks on video call booking for "60" minutes
+  Scenario: Validating the booking functionality for 60 minutes video call of topmate.io from public profile in india
+    Given user clicks booking service
+      | booking type | duration |
+      | video call   | 60       |
     When user books meeting with time and date for "60" minutes video call
       | date   | time   | timezone |
       | random | random | IST      |
