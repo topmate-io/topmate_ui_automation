@@ -41,7 +41,7 @@ def before_all(context):
 def before_scenario(context, driver):
     run_type = configReader.readConfig('basic info', 'run_type').lower().strip()
     selenium_hub_url = 'http://localhost:4444/hub'
-    PROXY = "45.133.36.198:8080"
+
     if context.browser == 'chrome':
         chrome_options = ChromeOptions()
         """"--disable-dev-shm-usage" Only added when CI system environment variable is set 
@@ -51,7 +51,6 @@ def before_scenario(context, driver):
         """
         chrome_options.add_argument('--disable-dev-shm-usage')  # overcomes the limited resources problem
         chrome_options.add_argument('--no-sandbox')# Bypass OS security model
-        chrome_options.add_argument(f'--proxy-server=http://{PROXY}')
 
         if context.headless == 'true':
             chrome_options.headless = True
