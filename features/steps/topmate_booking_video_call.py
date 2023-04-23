@@ -35,6 +35,8 @@ def step_impl(context):
             context.public_profile_entry_page.book_video_call(int(duration))
         elif booking_type.lower() == 'query':
             context.public_profile_entry_page.book_query()
+        elif booking_type.lower() == 'webinar':
+            context.public_profile_entry_page.book_webinar()
 
 
 @when('user books meeting with time and date for "{duration}" minutes video call')

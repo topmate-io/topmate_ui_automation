@@ -18,6 +18,9 @@ class PublicProfileBookingFormPage(BasePage):
             self.wait_for_element_to_be_visible_with_locator_value(meeting_details_heading_locator, 'XPATH', 10)
         elif booking_type == 'query':
             self.wait_for_element_to_be_visible('query_heading_XPATH', 10)
+        elif booking_type == 'webinar':
+            self.wait_for_element_to_be_visible('webinar_heading_XPATH', 10)
+
         log.info(f'Successfully navigated to Booking Form Page of Public Profile for {booking_type}')
 
     def user_fills_up_booking_form_data_for_video_call(self, name: str, email: str, about_call: str, phone_number: str,
@@ -57,17 +60,42 @@ class PublicProfileBookingFormPage(BasePage):
         time.sleep(3)
         self.click(booking_update_checkbox)
 
-    def user_click_on_send_query(self):
-        log.info('Clicking on Send Query')
-        send_query_button = self.get_element('send_query_XPATH')
-        self.scroll_into_view_middle_JS(send_query_button)
-        self.click(send_query_button)
+    def user_fills_up_booking_form_data_for_webinar(self, name: str, email: str, phone_number: str):
+        log.info('User filling up booking form data for query')
+        name_field = self.wait_for_element_to_be_clickable('name_field_ID', 5)
+        email_field = self.get_element('email_field_ID')
+        phone_number_field = self.get_element('phone_number_field_ID')
+        booking_update_checkbox = self.get_element('booking_update_checkbox_ID')
+
+        self.type(name_field, name)
+        self.type(email_field, email)
+        self.type(phone_number_field, phone_number)
+        # first uncheck the default checked booking update checkbox
+        self.click(booking_update_checkbox)
+        # then check again
+        time.sleep(3)
+        self.click(booking_update_checkbox)
 
     def user_click_on_confirm_pay(self):
         log.info('Clicking on Confirm and Pay')
         confirm_pay_button = self.get_element('confirm_pay_XPATH')
         self.scroll_into_view_middle_JS(confirm_pay_button)
         self.click(confirm_pay_button)
+        log.info('Confirm Pay button has been clicked successfully')
+
+    def user_click_on_send_query(self):
+        log.info('Clicking on Send Query')
+        send_query_button = self.get_element('send_query_XPATH')
+        self.scroll_into_view_middle_JS(send_query_button)
+        self.click(send_query_button)
+        log.info('Send Query button has been clicked successfully')
+
+    def user_click_on_confirm_details(self):
+        log.info('Clicking on Confirm Details')
+        confirm_details_button = self.get_element('webinar_confirm_details_XPATH')
+        self.scroll_into_view_middle_JS(confirm_details_button)
+        self.click(confirm_details_button)
+        log.info('Confirm Details button has been clicked successfully')
 
     def verify_payment_tab_is_open(self, payment_tab_title: str):
         log.info('verifying payment tab is opened')
