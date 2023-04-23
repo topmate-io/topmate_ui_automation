@@ -28,13 +28,3 @@ def step_impl(context):
 @step("user clicks on Send Query")
 def step_impl(context):
     context.public_profile_booking_form_page.user_click_on_send_query()
-
-
-@step('verify query has been sent successfully')
-def step_impl(context):
-    context.public_profile_booking_confirmation_page = PublicProfileBookingConfirmationPage(context.driver)
-    for row in context.table:
-        booking_status = context.public_profile_booking_confirmation_page.verify_booking_status_for_query(
-            row['expected message'])
-        assert booking_status, f"Booking Status {row['expected message']}: FAILED!"
-        log.info(f"Booking Status {row['expected message']}: SUCCESS!")

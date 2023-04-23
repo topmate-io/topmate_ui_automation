@@ -50,8 +50,8 @@ class PublicProfileBookingConfirmationPage(BasePage):
 
     #################################################################--API--#########################################################################################
 
-    def get_payment_status_API(self, booking_id):
+    def get_payment_status_API(self, booking_type: str, booking_id: str):
         host = 'https://gravitron.run'
-        endpoint = endpoints.get_booking_status_endpoint(booking_id)
+        endpoint = endpoints.get_booking_status_endpoint(booking_type, booking_id)
         res_json = api_requests.get(host=host, endpoint=endpoint)
         return res_json.get('status')
