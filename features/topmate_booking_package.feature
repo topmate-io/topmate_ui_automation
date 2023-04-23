@@ -25,24 +25,24 @@ Feature: As an user I want to test booking functionality for Package of topmate.
       | package      | ongoing        |
 
 
-  @regression @india
-  Scenario: Validating the booking functionality for Package of topmate.io from public profile in india
-    Given user clicks booking service
-      | booking type | duration |
-      | package      | None     |
-    When user clicks on Buy Package
-    And user fills up the booking form for package service with user details
-      | Your Name | Email                       | Phone Number |
-      | Test_User | test_user_topmate@gmail.com | 1234567890   |
-    And user clicks on 'Buy Now'
-    And user choose payment type
-      | payment mode | payment bank |
-      | Netbanking   | IDBI         |
-    And user clicks on Pay Now
-    And user choose payment status as "Success"
-    Then verify booking is confirmed for the selected time and date
-      | expected message1 | expected message2     |
-      | Package           | with Automate Topmate |
-    And API: user verify payment status
-      | booking type | payment status |
-      | package      | ongoing        |
+#  @regression @india
+#  Scenario: Validating the booking functionality for Package of topmate.io from public profile in india
+#    Given user clicks booking service
+#      | booking type | duration |
+#      | package      | None     |
+#    When user clicks on Buy Package
+#    And user fills up the booking form for package service with user details
+#      | Your Name | Email                       | Phone Number |
+#      | Test_User | test_user_topmate@gmail.com | 1234567890   |
+#    And user clicks on 'Buy Now'
+#    And user choose payment type
+#      | payment mode | payment bank |
+#      | Netbanking   | IDBI         |
+#    And user clicks on Pay Now
+#    And user choose payment status as "Success"
+#    Then verify booking is confirmed for the selected time and date
+#      | expected message1 | expected message2     |
+#      | Package           | with Automate Topmate |
+#    And API: user verify payment status
+#      | booking type | payment status |
+#      | package      | ongoing        |

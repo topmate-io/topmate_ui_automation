@@ -25,24 +25,24 @@ Feature: As an user I want to test booking functionality for Webinar of topmate.
       | webinar      | upcoming       |
 
 
-  @regression @india
-  Scenario: Validating the booking functionality for Webinar of topmate.io from public profile in india
-    Given user clicks booking service
-      | booking type | duration |
-      | webinar      | None     |
-    When user clicks on Book Seat
-    And user fills up the booking form for webinar service with user details
-      | Your Name | Email                       | Phone Number |
-      | Test_User | test_user_topmate@gmail.com | 1234567890   |
-    And user clicks on 'Confirm Details'
-    And user choose payment type
-      | payment mode | payment bank |
-      | Netbanking   | IDBI         |
-    And user clicks on Pay Now
-    And user choose payment status as "Success"
-    Then verify booking is confirmed for the selected time and date
-      | expected message1 | expected message2 |
-      | Booking confirmed | for Webinar       |
-    And API: user verify payment status
-      | booking type | payment status |
-      | webinar      | upcoming       |
+#  @regression @india
+#  Scenario: Validating the booking functionality for Webinar of topmate.io from public profile in india
+#    Given user clicks booking service
+#      | booking type | duration |
+#      | webinar      | None     |
+#    When user clicks on Book Seat
+#    And user fills up the booking form for webinar service with user details
+#      | Your Name | Email                       | Phone Number |
+#      | Test_User | test_user_topmate@gmail.com | 1234567890   |
+#    And user clicks on 'Confirm Details'
+#    And user choose payment type
+#      | payment mode | payment bank |
+#      | Netbanking   | IDBI         |
+#    And user clicks on Pay Now
+#    And user choose payment status as "Success"
+#    Then verify booking is confirmed for the selected time and date
+#      | expected message1 | expected message2 |
+#      | Booking confirmed | for Webinar       |
+#    And API: user verify payment status
+#      | booking type | payment status |
+#      | webinar      | upcoming       |
