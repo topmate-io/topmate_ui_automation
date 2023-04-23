@@ -22,6 +22,8 @@ class PublicProfileBookingFormPage(BasePage):
             self.wait_for_element_to_be_visible('webinar_heading_XPATH', 10)
         elif booking_type == 'package':
             self.wait_for_element_to_be_visible('package_heading_XPATH', 10)
+        elif booking_type == 'document service':
+            self.wait_for_element_to_be_visible('document_service_heading_XPATH', 10)
 
         log.info(f'Successfully navigated to Booking Form Page of Public Profile for {booking_type}')
 
@@ -78,33 +80,16 @@ class PublicProfileBookingFormPage(BasePage):
         time.sleep(3)
         self.click(booking_update_checkbox)
 
-    def user_click_on_confirm_pay(self):
-        log.info('Clicking on Confirm and Pay')
-        confirm_pay_button = self.get_element('confirm_pay_XPATH')
-        self.scroll_into_view_middle_JS(confirm_pay_button)
-        self.click(confirm_pay_button)
-        log.info('Confirm Pay button has been clicked successfully')
-
-    def user_click_on_send_query(self):
-        log.info('Clicking on Send Query')
-        send_query_button = self.get_element('send_query_XPATH')
-        self.scroll_into_view_middle_JS(send_query_button)
-        self.click(send_query_button)
-        log.info('Send Query button has been clicked successfully')
-
-    def user_click_on_confirm_details(self):
-        log.info('Clicking on Confirm Details')
-        confirm_details_button = self.get_element('webinar_confirm_details_XPATH')
-        self.scroll_into_view_middle_JS(confirm_details_button)
-        self.click(confirm_details_button)
-        log.info('Confirm Details button has been clicked successfully')
-
-    def user_click_on_buy_now(self):
-        log.info('Clicking on Buy Now')
-        confirm_details_button = self.get_element('package_buy_now_XPATH')
-        self.scroll_into_view_middle_JS(confirm_details_button)
-        self.click(confirm_details_button)
-        log.info('Buy Now button has been clicked successfully')
+    def user_click_on_payment_initiate_button(self, button_text):
+        log.info(f'Clicking on {button_text}')
+        submit_button_locator = self.get_locator('initiate_payment_button_XPATH').replace('[replace button_text here]',
+                                                                                          button_text)
+        submit_button = self.wait_for_element_to_be_clickable_with_locator_value(locator_value=submit_button_locator,
+                                                                                 locator_type='XPATH',
+                                                                                 time_in_seconds=10)
+        self.scroll_into_view_middle_JS(submit_button)
+        self.click(submit_button)
+        log.info(f'{button_text} button has been clicked successfully')
 
     def verify_payment_tab_is_open(self, payment_tab_title: str):
         log.info('verifying payment tab is opened')

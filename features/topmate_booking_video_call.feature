@@ -14,7 +14,7 @@ Feature: As an user I want to test booking functionality for Video Call of topma
     And user fills up the booking form for "15" minutes video call with user details
       | name      | email                       | what is the call about | Phone Number |
       | Test_User | test_user_topmate@gmail.com | For Testing            | 1234567890   |
-    And user clicks on Confirm and Pay
+    And user clicks on 'Confirm and Pay'
     And user fills up card details for stripe payment
       | Email             | Card Number         | Expiry date | CVV | Name on card | Country Or Region |
       | test543@gmail.com | 4242 4242 4242 4242 | 12/34       | 123 | Test User    | Default           |
@@ -37,7 +37,7 @@ Feature: As an user I want to test booking functionality for Video Call of topma
     And user fills up the booking form for "30" minutes video call with user details
       | name      | email                       | what is the call about | Phone Number |
       | Test_User | test_user_topmate@gmail.com | For Testing            | 1234567890   |
-    And user clicks on Confirm and Pay
+    And user clicks on 'Confirm and Pay'
     And user fills up card details for stripe payment
       | Email          | Card Number         | Expiry date | CVV | Name on card | Country Or Region |
       | test@gmail.com | 4242 4242 4242 4242 | 12/34       | 123 | Test User    | Default           |
@@ -60,7 +60,7 @@ Feature: As an user I want to test booking functionality for Video Call of topma
     And user fills up the booking form for "60" minutes video call with user details
       | name      | email                       | what is the call about | Phone Number |
       | Test_User | test_user_topmate@gmail.com | For Testing            | 1234567890   |
-    And user clicks on Confirm and Pay
+    And user clicks on 'Confirm and Pay'
     And user fills up card details for stripe payment
       | Email          | Card Number         | Expiry date | CVV | Name on card | Country Or Region |
       | test@gmail.com | 4242 4242 4242 4242 | 12/34       | 123 | Test User    | Default           |
@@ -83,7 +83,7 @@ Feature: As an user I want to test booking functionality for Video Call of topma
     And user fills up the booking form for "15" minutes video call with user details
       | name      | email                       | what is the call about | Phone Number |
       | Test_User | test_user_topmate@gmail.com | For Testing            | 1234567890   |
-    And user clicks on Confirm and Pay
+    And user clicks on 'Confirm and Pay'
     And user choose payment type
       | payment mode | payment bank |
       | Netbanking   | IDBI         |
@@ -107,7 +107,7 @@ Feature: As an user I want to test booking functionality for Video Call of topma
     And user fills up the booking form for "30" minutes video call with user details
       | name      | email                       | what is the call about | Phone Number |
       | Test_User | test_user_topmate@gmail.com | For Testing            | 1234567890   |
-    And user clicks on Confirm and Pay
+    And user clicks on 'Confirm and Pay'
     And user choose payment type
       | payment mode | payment bank |
       | Netbanking   | PNB          |
@@ -131,7 +131,7 @@ Feature: As an user I want to test booking functionality for Video Call of topma
     And user fills up the booking form for "60" minutes video call with user details
       | name      | email                       | what is the call about | Phone Number |
       | Test_User | test_user_topmate@gmail.com | For Testing            | 1234567890   |
-    And user clicks on Confirm and Pay
+    And user clicks on 'Confirm and Pay'
     And user choose payment type
       | payment mode | payment bank |
       | Netbanking   | Kotak        |
