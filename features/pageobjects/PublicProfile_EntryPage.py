@@ -24,3 +24,9 @@ class PublicProfileEntryPage(BasePage):
         self.scroll_into_view_middle_JS(element)
         self.hover_and_click(element)
         log.info(f'Query service has been clicked successfully')
+
+    def book_webinar(self):
+        element = self.wait_for_element_to_be_clickable('webinar_XPATH', 10)
+        self.scroll_into_view_middle_JS(element)
+        self.hover_and_click(element)
+        log.info(f'Webinar service has been clicked successfully')
