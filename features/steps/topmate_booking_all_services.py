@@ -7,6 +7,8 @@ from features.pageobjects.PublicProfile_BookingFormPage import PublicProfileBook
 from features.pageobjects.PublicProfile_BookingPage import PublicProfileBookingPage
 from features.pageobjects.PublicProfile_EntryPage import PublicProfileEntryPage
 from features.pageobjects.PublicProfile_StripePaymentPage import PublicProfileStripePaymentPage
+from features.pageobjects.PublicProfile_Webinar_Package_BookingPage import \
+    PublicProfileWebinarPackageDocumentBookingPage
 from utilities import log_util
 
 log = log_util.get_logs()
@@ -52,6 +54,33 @@ def step_impl(context, duration):
         context.public_profile_booking_page.confirm_booking_details()
 
 
+@when("user clicks on Book Seat")
+def step_impl(context):
+    booking_type = 'Webinar'
+    context.public_profile_webinar_package_document_booking_page = PublicProfileWebinarPackageDocumentBookingPage(
+        context.driver,
+        booking_type)
+    context.public_profile_webinar_package_document_booking_page.book_seat_for_webinar()
+
+
+@when("user clicks on Buy Package")
+def step_impl(context):
+    booking_type = 'Package'
+    context.public_profile_webinar_package_document_booking_page = PublicProfileWebinarPackageDocumentBookingPage(
+        context.driver,
+        booking_type)
+    context.public_profile_webinar_package_document_booking_page.click_on_buy_package()
+
+
+@when("user clicks on Purchase")
+def step_impl(context):
+    booking_type = 'Document Service'
+    context.public_profile_webinar_package_document_booking_page = PublicProfileWebinarPackageDocumentBookingPage(
+        context.driver,
+        booking_type)
+    context.public_profile_webinar_package_document_booking_page.click_on_purchase()
+
+
 @step('user fills up the booking form for "{duration}" minutes video call with user details')
 def step_impl(context, duration):
     booking_type = 'video call'
@@ -67,9 +96,58 @@ def step_impl(context, duration):
                                                                                                 duration)
 
 
-@step("user clicks on Confirm and Pay")
+@step('user fills up the booking form for query service with user details')
 def step_impl(context):
-    context.public_profile_booking_form_page.user_click_on_confirm_pay()
+    booking_type = 'query'
+    booking_duration = None
+    context.public_profile_booking_form_page = PublicProfileBookingFormPage(context.driver, booking_type,
+                                                                            booking_duration)
+    for row in context.table:
+        context.public_profile_booking_form_page.user_fills_up_booking_form_data_for_query(row['Your Name'],
+                                                                                           row['Email'],
+                                                                                           row['Your Question'],
+                                                                                           row['Phone Number'])
+
+
+@step("user fills up the booking form for webinar service with user details")
+def step_impl(context):
+    booking_type = 'webinar'
+    booking_duration = None
+    context.public_profile_booking_form_page = PublicProfileBookingFormPage(context.driver, booking_type,
+                                                                            booking_duration)
+    for row in context.table:
+        context.public_profile_booking_form_page.user_fills_up_booking_form_data_for_webinar(row['Your Name'],
+                                                                                             row['Email'],
+                                                                                             row['Phone Number'])
+
+
+@step("user fills up the booking form for package service with user details")
+def step_impl(context):
+    booking_type = 'package'
+    booking_duration = None
+    context.public_profile_booking_form_page = PublicProfileBookingFormPage(context.driver, booking_type,
+                                                                            booking_duration)
+    for row in context.table:
+        context.public_profile_booking_form_page.user_fills_up_booking_form_data_for_webinar(row['Your Name'],
+                                                                                             row['Email'],
+                                                                                             row['Phone Number'])
+
+
+@step("user fills up the booking form for document service service with user details")
+def step_impl(context):
+    booking_type = 'document dervice'
+    booking_duration = None
+    context.public_profile_booking_form_page = PublicProfileBookingFormPage(context.driver, booking_type,
+                                                                            booking_duration)
+    for row in context.table:
+        context.public_profile_booking_form_page.user_fills_up_booking_form_data_for_webinar(row['Your Name'],
+                                                                                             row['Email'],
+                                                                                             row['Phone Number'])
+
+
+@step("user clicks on '{button_name}'")
+def step_impl(context, button_name):
+    context.public_profile_booking_form_page.user_click_on_payment_initiate_button(button_text=button_name)
 
 
 @step("user choose payment type")
@@ -95,7 +173,7 @@ def step_impl(context, payment_status):
 def step_impl(context):
     context.public_profile_booking_confirmation_page = PublicProfileBookingConfirmationPage(context.driver)
     for row in context.table:
-        booking_status = context.public_profile_booking_confirmation_page.verify_booking_status_for_video_call(
+        booking_status = context.public_profile_booking_confirmation_page.verify_booking_status_for_all_services(
             row['expected message1'],
             row['expected message2'])
         assert booking_status, f"Booking Status {row['expected message2']}: FAILED!"
@@ -105,7 +183,7 @@ def step_impl(context):
 @then("API: user verify payment status")
 def step_impl(context):
     for row in context.table:
-        booking_type = row['booking type']
+        booking_type = row['booking type'].lower()
         expected_payment_status = row['payment status']
         booking_id = context.public_profile_booking_confirmation_page.get_bookingID_from_page_title()
         actual_payment_status = context.public_profile_booking_confirmation_page.get_payment_status_API(
