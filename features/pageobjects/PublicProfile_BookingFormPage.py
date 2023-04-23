@@ -20,6 +20,8 @@ class PublicProfileBookingFormPage(BasePage):
             self.wait_for_element_to_be_visible('query_heading_XPATH', 10)
         elif booking_type == 'webinar':
             self.wait_for_element_to_be_visible('webinar_heading_XPATH', 10)
+        elif booking_type == 'package':
+            self.wait_for_element_to_be_visible('package_heading_XPATH', 10)
 
         log.info(f'Successfully navigated to Booking Form Page of Public Profile for {booking_type}')
 
@@ -96,6 +98,13 @@ class PublicProfileBookingFormPage(BasePage):
         self.scroll_into_view_middle_JS(confirm_details_button)
         self.click(confirm_details_button)
         log.info('Confirm Details button has been clicked successfully')
+
+    def user_click_on_buy_now(self):
+        log.info('Clicking on Buy Now')
+        confirm_details_button = self.get_element('package_buy_now_XPATH')
+        self.scroll_into_view_middle_JS(confirm_details_button)
+        self.click(confirm_details_button)
+        log.info('Buy Now button has been clicked successfully')
 
     def verify_payment_tab_is_open(self, payment_tab_title: str):
         log.info('verifying payment tab is opened')

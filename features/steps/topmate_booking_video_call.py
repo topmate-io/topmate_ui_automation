@@ -21,22 +21,12 @@ def step_impl(context, username):
     context.public_profile_entry_page.maximize_window()
 
 
-@given('user clicks on video call booking for "{duration}" minutes')
-def step_impl(context, duration):
-    context.public_profile_entry_page.book_video_call(int(duration))
-
-
 @given('user clicks booking service')
 def step_impl(context):
     for row in context.table:
         booking_type = row['booking type']
         duration = row['duration']
-        if booking_type.lower() == 'video call':
-            context.public_profile_entry_page.book_video_call(int(duration))
-        elif booking_type.lower() == 'query':
-            context.public_profile_entry_page.book_query()
-        elif booking_type.lower() == 'webinar':
-            context.public_profile_entry_page.book_webinar()
+        context.public_profile_entry_page.book_service(booking_type, duration)
 
 
 @when('user books meeting with time and date for "{duration}" minutes video call')
@@ -69,9 +59,12 @@ def step_impl(context, duration):
     context.public_profile_booking_form_page = PublicProfileBookingFormPage(context.driver, booking_type,
                                                                             booking_duration)
     for row in context.table:
-        context.public_profile_booking_form_page.user_fills_up_booking_form_data_for_video_call(row['name'], row['email'],
-                                                                                 row['what is the call about'],
-                                                                                 row['Phone Number'], duration)
+        context.public_profile_booking_form_page.user_fills_up_booking_form_data_for_video_call(row['name'],
+                                                                                                row['email'],
+                                                                                                row[
+                                                                                                    'what is the call about'],
+                                                                                                row['Phone Number'],
+                                                                                                duration)
 
 
 @step("user clicks on Confirm and Pay")
@@ -109,13 +102,17 @@ def step_impl(context):
         log.info(f"Booking Status {row['expected message2']}: SUCCESS!")
 
 
-@then("API: user verify payment status as '{expected_payment_status}'")
-def step_impl(context, expected_payment_status):
-    booking_id = context.public_profile_booking_confirmation_page.get_bookingID_from_page_title()
-    actual_payment_status = context.public_profile_booking_confirmation_page.get_payment_status_API(booking_id)
-    assert expected_payment_status == actual_payment_status, f"Expected Payment Status: {expected_payment_status} | Actual Payment status: {actual_payment_status}: FAILED!"
-    log.info(
-        f"Expected Payment Status: {expected_payment_status} | Actual Payment status: {actual_payment_status}: SUCCESS!")
+@then("API: user verify payment status")
+def step_impl(context):
+    for row in context.table:
+        booking_type = row['booking type']
+        expected_payment_status = row['payment status']
+        booking_id = context.public_profile_booking_confirmation_page.get_bookingID_from_page_title()
+        actual_payment_status = context.public_profile_booking_confirmation_page.get_payment_status_API(
+            booking_type, booking_id)
+        assert expected_payment_status == actual_payment_status, f"Expected Payment Status: {expected_payment_status} | Actual Payment status: {actual_payment_status}: FAILED!"
+        log.info(
+            f"Expected Payment Status: {expected_payment_status} | Actual Payment status: {actual_payment_status}: SUCCESS!")
 
 
 @step("user fills up card details for stripe payment")

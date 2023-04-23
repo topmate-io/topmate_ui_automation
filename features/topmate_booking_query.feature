@@ -1,4 +1,4 @@
-Feature: As an user I want to test booking functionality for video call of topmate.io from public profile
+Feature: As an user I want to test booking functionality for Query of topmate.io from public profile
 
   Background:
     Given user navigates to public profile page of topmate with user "automate_topmate"
@@ -16,9 +16,9 @@ Feature: As an user I want to test booking functionality for video call of topma
       | Email             | Card Number         | Expiry date | CVV | Name on card | Country Or Region |
       | test543@gmail.com | 4242 4242 4242 4242 | 12/34       | 123 | Test User    | Default           |
     And user clicks on Pay for stripe payment
-    Then verify query has been sent successfully
-      | expected message |
-      | Query sent       |
+    Then verify booking is confirmed for the selected time and date
+      | expected message1 | expected message2 |
+      | Query sent        | for Query         |
 
 
   @regression @india
@@ -35,6 +35,6 @@ Feature: As an user I want to test booking functionality for video call of topma
       | Netbanking   | IDBI         |
     And user clicks on Pay Now
     And user choose payment status as "Success"
-    Then verify query has been sent successfully
-      | expected message |
-      | Query sent       |
+    Then verify booking is confirmed for the selected time and date
+      | expected message1 | expected message2 |
+      | Query sent        | for Query         |

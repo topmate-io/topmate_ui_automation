@@ -1,4 +1,4 @@
-Feature: As an user I want to test booking functionality for video call of topmate.io from public profile
+Feature: As an user I want to test booking functionality for Video Call of topmate.io from public profile
 
   Background:
     Given user navigates to public profile page of topmate with user "automate_topmate"
@@ -22,7 +22,9 @@ Feature: As an user I want to test booking functionality for video call of topma
     Then verify booking is confirmed for the selected time and date
       | expected message1 | expected message2      |
       | Booking confirmed | for 15 mins video call |
-    And API: user verify payment status as 'upcoming'
+    And API: user verify payment status
+      | booking type | payment status |
+      | video call   | upcoming       |
 
   @regression @abroad
   Scenario: Validating the booking functionality for 30 minutes video call of topmate.io from public profile outside india
@@ -43,7 +45,9 @@ Feature: As an user I want to test booking functionality for video call of topma
     Then verify booking is confirmed for the selected time and date
       | expected message1 | expected message2      |
       | Booking confirmed | for 30 mins video call |
-    And API: user verify payment status as 'upcoming'
+    And API: user verify payment status
+      | booking type | payment status |
+      | video call   | upcoming       |
 
   @regression @abroad
   Scenario: Validating the booking functionality for 60 minutes video call of topmate.io from public profile outside india
@@ -64,7 +68,9 @@ Feature: As an user I want to test booking functionality for video call of topma
     Then verify booking is confirmed for the selected time and date
       | expected message1 | expected message2      |
       | Booking confirmed | for 60 mins video call |
-    And API: user verify payment status as 'upcoming'
+    And API: user verify payment status
+      | booking type | payment status |
+      | video call   | upcoming       |
 
   @regression @india
   Scenario: Validating the booking functionality for 15 minutes video call of topmate.io from public profile in india
@@ -86,7 +92,9 @@ Feature: As an user I want to test booking functionality for video call of topma
     Then verify booking is confirmed for the selected time and date
       | expected message1 | expected message2      |
       | Booking confirmed | for 15 mins video call |
-    And API: user verify payment status as 'upcoming'
+    And API: user verify payment status
+      | booking type | payment status |
+      | video call   | upcoming       |
 
   @regression @india
   Scenario: Validating the booking functionality for 30 minutes video call of topmate.io from public profile in india
@@ -108,7 +116,9 @@ Feature: As an user I want to test booking functionality for video call of topma
     Then verify booking is confirmed for the selected time and date
       | expected message1 | expected message2      |
       | Booking confirmed | for 30 mins video call |
-    And API: user verify payment status as 'upcoming'
+    And API: user verify payment status
+      | booking type | payment status |
+      | video call   | upcoming       |
 
   @regression @india
   Scenario: Validating the booking functionality for 60 minutes video call of topmate.io from public profile in india
@@ -130,6 +140,8 @@ Feature: As an user I want to test booking functionality for video call of topma
     Then verify booking is confirmed for the selected time and date
       | expected message1 | expected message2      |
       | Booking confirmed | for 60 mins video call |
-    And API: user verify payment status as 'upcoming'
+    And API: user verify payment status
+      | booking type | payment status |
+      | video call   | upcoming       |
 
 
