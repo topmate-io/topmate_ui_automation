@@ -13,15 +13,15 @@ class PublicProfileBookingConfirmationPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
         url = self.get_present_url()
-        if 'booking-confirmation' in url:
+        if 'booking-confirmation' in url or 'query-success' in url or 'buydoc-success' in url:
             log.info('Successfully navigated to Booking Form Page of Public Profile')
         else:
             log.error('Booking Confirmation Page is not loaded successfully')
             raise Exception('Booking Confirmation Page is not loaded successfully')
 
-    def verify_booking_status(self, expected_message1, expected_message2):
+    def verify_booking_status_for_all_services(self, expected_message1, expected_message2):
         log.info('verifying booking status')
-        booking_status_element = self.wait_for_element_to_be_visible('booking_status_CSS', 10)
+        booking_status_element = self.wait_for_element_to_be_visible('booking_status_CSS', 15)
         booking_status_message = self.get_text(booking_status_element)
         log.info(f'expected status message: {expected_message1}')
         log.info(f'actual status message: {booking_status_message}')
@@ -40,9 +40,8 @@ class PublicProfileBookingConfirmationPage(BasePage):
 
     #################################################################--API--#########################################################################################
 
-    def get_payment_status_API(self, booking_id):
-        self.wait(10)
+    def get_payment_status_API(self, booking_type: str, booking_id: str):
         host = 'https://gravitron.run'
-        endpoint = endpoints.get_booking_status_endpoint(booking_id)
+        endpoint = endpoints.get_booking_status_endpoint(booking_type, booking_id)
         res_json = api_requests.get(host=host, endpoint=endpoint)
         return res_json.get('status')
