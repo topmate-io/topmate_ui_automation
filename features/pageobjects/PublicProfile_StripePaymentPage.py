@@ -41,7 +41,7 @@ class PublicProfileStripePaymentPage(BasePage):
 
     def click_on_pay(self):
         log.info('clicking on Pay')
-        pay_button = self.wait_for_element_to_be_clickable('stripe_pay_button_CSS')
+        pay_button = self.wait_for_element_to_be_clickable('stripe_pay_button_CSS', 10)
         self.click(pay_button)
         log.info('Pay button has been clicked successfully')
         self.wait(8)
