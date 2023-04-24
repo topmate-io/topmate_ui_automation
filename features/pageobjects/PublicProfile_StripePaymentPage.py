@@ -24,6 +24,7 @@ class PublicProfileStripePaymentPage(BasePage):
         cvv_field = self.get_element('stripe_cvv_ID')
         name_field = self.get_element('stripe_name_ID')
         country_region_dropdown_field = self.get_element('stripe_country_dropdown_ID')
+        secure_checkbox_field = self.get_element('secure_checkbox_ID')
 
         self.type(email_field, email)
         self.type(card_number_field, card_number)
@@ -33,9 +34,14 @@ class PublicProfileStripePaymentPage(BasePage):
         if country_region.lower() != 'default':
             self.select_from_dropdown(country_region, country_region_dropdown_field)
 
+        # as seen in the report, secure checkbox is by-default checked, hence unchecking it
+        self.click(secure_checkbox_field)
+        self.wait(2)
+
+
     def click_on_pay(self):
         log.info('clicking on Pay')
-        pay_button = self.get_element('stripe_pay_button_CSS')
+        pay_button = self.wait_for_element_to_be_clickable('stripe_pay_button_CSS')
         self.click(pay_button)
         log.info('Pay button has been clicked successfully')
         self.wait(8)
