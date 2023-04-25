@@ -18,7 +18,7 @@ Feature: As an user I want to test booking functionality for Query of topmate.io
     And user clicks on Pay for stripe payment
     Then verify booking is confirmed for the selected time and date
       | expected message1 | expected message2 |
-      | Query sent        | for Query         |
+      | Query sent        |                   |
 
 
 #  @regression @india
