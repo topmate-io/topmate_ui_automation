@@ -26,12 +26,16 @@ class PublicProfileBookingConfirmationPage(BasePage):
         log.info(f'expected status message: {expected_message1}')
         log.info(f'actual status message: {booking_status_message}')
 
-        service_title_element = self.get_element('service_title_CSS')
-        service_title_text = self.get_text(service_title_element)
-        log.info(f'expected service_title_text: {expected_message2}')
-        log.info(f'actual service_title_text: {service_title_text}')
-        if booking_status_message == expected_message1 and service_title_text == expected_message2:
-            return True
+        if expected_message2 == '':
+            if booking_status_message == expected_message1:
+                return True
+        else:
+            service_title_element = self.get_element('service_title_CSS')
+            service_title_text = self.get_text(service_title_element)
+            log.info(f'expected service_title_text: {expected_message2}')
+            log.info(f'actual service_title_text: {service_title_text}')
+            if booking_status_message == expected_message1 and service_title_text == expected_message2:
+                return True
 
     def get_bookingID_from_page_title(self) -> str:
         url = self.get_present_url()
