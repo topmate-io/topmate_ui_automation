@@ -34,7 +34,7 @@ spec:
           - name: BROWSER
             value: chrome
           - name: URL
-            value: https://staging2.topmate.io/
+            value: %%URL%%
       restartPolicy: Never
       tolerations:
       - key: instance_type
